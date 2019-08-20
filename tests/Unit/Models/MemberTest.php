@@ -17,7 +17,7 @@ class MemberTest extends TestCase
         $user = factory(User::class)->create();
         $member = factory(Member::class)->create();
 
-        $user->plans()->attach($member);
+        $user->plans()->attach($member, ['card' => 'images/cards/xyz.jpg']);
 
         $this->assertEquals(1, $user->plans->count());
 

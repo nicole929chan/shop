@@ -3,6 +3,7 @@
 namespace App\Plan;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class Plan
 {
@@ -13,8 +14,10 @@ class Plan
         $this->user = $user;        
     }
 
-    public function add($memberId)
+    public function add($memberId, $image)
     {
-        $this->user->plans()->attach($memberId);
+        $card = $image->store('images/cards', 'public');
+
+        $this->user->plans()->attach($memberId, ['card' => $card]);
     }
 }

@@ -68,6 +68,8 @@ class User extends Authenticatable implements JWTSubject
 
     public function plans()
     {
-        return $this->belongsToMany(Member::class, 'user_plan');
+        return $this->belongsToMany(Member::class, 'user_plan')
+            ->withPivot('card')
+            ->withTimestamps();
     }
 }
