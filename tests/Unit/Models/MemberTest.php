@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Activity;
 use App\Models\Member;
-use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,15 +11,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class MemberTest extends TestCase
 {
     use RefreshDatabase;
-    
-    public function test_使用者能參與多位店家的優惠()
+
+    public function test_新增店家時一併產生店家二維碼網址()
     {
-        $user = factory(User::class)->create();
         $member = factory(Member::class)->create();
 
-        $user->plans()->attach($member, ['card' => 'images/cards/xyz.jpg']);
+        $qrcode = config('app.url') . "/api/members/{$member->id}";
 
-        $this->assertEquals(1, $user->plans->count());
+        $this->assertEquals($qrcode, $member->fresh()->qrcode);
+    }
 
+    public function test_店家有一筆優惠活動()
+    {
+        $member = factory(Member::class)->create();
+        $activity = factory(Activity::class)->create(['member_id' => $member->id]);
+
+        $this->assertInstanceOf(Activity::class, $member->activity);
     }
 }

@@ -6,8 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    public function activities()
+
+    public static function boot()
     {
-        return $this->hasMany(Activity::class);
+        parent::boot();
+
+        static::created(function ($member) { 
+            $member->qrcode = config('app.url') . "/api/members/{$member->id}";
+            $member->save();
+        });
     }
+
+    public function activity()
+    {
+        return $this->hasOne(Activity::class);
+    }
+    
 }
