@@ -21,6 +21,7 @@ class CreateUserPlanTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('member_id')->references('id')->on('members');
+            $table->primary(['user_id', 'member_id']);
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Plan\Plan;
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Plan::class, function ($app) {
-            return new Plan($app->auth->user());
+            return new Plan($app->auth->user(), new ImageManager());
         });
     }
 

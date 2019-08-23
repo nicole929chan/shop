@@ -32,14 +32,14 @@ class PlanStoreTest extends TestCase
             'image' => $image = UploadedFile::fake()->image('photo1.jpg')
         ]);
 
-        $card = $image->hashName();
+        $name = $image->hashName();
 
-        Storage::disk('public')->assertExists('images/cards', $card);
+        Storage::disk('public')->assertExists("images/cards/{$member->id}", $name);
         
         $this->assertDatabaseHas('user_plan', [
             'user_id' => $user->id,
             'member_id' => $member->id,
-            'card' => "images/cards/{$card}"
+            'card' => "images/cards/{$member->id}/{$name}"
         ]);
     }
 
