@@ -2,6 +2,8 @@
 
 namespace App\Plan;
 
+use App\Models\Member;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -15,7 +17,7 @@ class Card
         $this->manager = $manager;
     }
 
-    public function generate($imagePath, $user)
+    public function generate($imagePath, User $user, Member $member)
     {
         $qrcodePath = $this->generateQrcode($user);
 
@@ -25,9 +27,10 @@ class Card
         });
         $image->contrast(-35);
         $image->insert($qrcodePath, 'center');
+        $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
 
-        // $this->destroyQrcode($qrcodePath);
+        $this->destroyQrcode($qrcodePath);
     }
 
     public function getPointsURL($user)

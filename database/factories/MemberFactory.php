@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Member::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'avatar' => $faker->image(),
+        'logo' => $faker->image(),
         'qrcode' => 'qrcode',
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),

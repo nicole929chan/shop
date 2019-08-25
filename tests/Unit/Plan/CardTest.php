@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Plan;
 
+use App\Models\Member;
 use App\Models\User;
 use App\Plan\Card;
 use Tests\TestCase;
@@ -17,89 +18,69 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
-    // public function test_獲取點數的API網址()
-    // {
-    //     $user = factory(User::class)->create();
-    //     $manager = new ImageManager();
-    //     $url = config('app.url') . "/getPoints/{$user->id}";
+    public function test_獲取點數的API網址()
+    {
+        $user = factory(User::class)->create();
+        $manager = new ImageManager();
+        $url = config('app.url') . "/getPoints/{$user->id}";
 
-    //     $card = new Card($manager);
+        $card = new Card($manager);
 
-    //     $this->assertEquals($url, $card->getPointsURL($user));
-    // }
+        $this->assertEquals($url, $card->getPointsURL($user));
+    }
 
-    // public function test_產生獲取點數的QRCode圖檔()
-    // {
-    //     $user = factory(User::class)->create();
-    //     $manager = new ImageManager();
+    public function test_產生獲取點數的QRCode圖檔()
+    {
+        $user = factory(User::class)->create();
+        $manager = new ImageManager();
         
-    //     QrCode::shouldReceive('format->size->generate')->once();
+        QrCode::shouldReceive('format->size->generate')->once();
         
-    //     $card = new Card($manager);
-    //     $card->generateQrcode($user);
-    // }
+        $card = new Card($manager);
+        $card->generateQrcode($user);
+    }
 
-    // public function test_刪除獲取點數QRcode圖檔()
-    // {
-    //     Storage::fake('public');
-    //     Storage::disk('public')->put('qrcode.png', 'qrcode contents');
+    public function test_刪除獲取點數QRcode圖檔()
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('qrcode.png', 'qrcode contents');
         
-    //     Storage::disk('public')->assertExists('qrcode.png');
+        Storage::disk('public')->assertExists('qrcode.png');
         
-    //     $testingPath = Storage::disk('public')->getAdapter()->getPathPrefix();
+        $testingPath = Storage::disk('public')->getAdapter()->getPathPrefix();
    
-    //     $user = factory(User::class)->create();
-    //     $manager = new ImageManager();
+        $user = factory(User::class)->create();
+        $manager = new ImageManager();
         
-    //     $card = new Card($manager);
-    //     $card->destroyQrcode($testingPath . '/qrcode.png');
+        $card = new Card($manager);
+        $card->destroyQrcode($testingPath . '/qrcode.png');
 
-    //     Storage::disk('public')->assertMissing('qrcode.png');
-    // }
+        Storage::disk('public')->assertMissing('qrcode.png');
+    }
 
-    // public function test_製作分享卡()
-    // {
-    //     Storage::fake('public');
-    //     Storage::disk('public')->put('user.png', 'user contents');
-        
-    //     Storage::disk('public')->assertExists('user.png');
-
-    //     $testingPath = Storage::disk('public')->getAdapter()->getPathPrefix();
-
-    //     $image = Mockery::mock(Image::class);
-    //     app()->instance(Image::class, $image);
+    public function test_製作分享卡()
+    {
+        $image = Mockery::mock(Image::class);
+        app()->instance(Image::class, $image);
    
-    //     $manager = $this->mock(ImageManager::class, function ($mock) use ($image) {
-    //         $mock->shouldReceive('make')
-    //             ->andReturn($image)
-    //             ->once();
-    //     });
+        $manager = $this->mock(ImageManager::class, function ($mock) use ($image) {
+            $mock->shouldReceive('make')
+                ->andReturn($image)
+                ->once();
+        });
 
-    //     $image->shouldReceive('resize')
-    //         ->shouldReceive('contrast')->with(-35)
-    //         ->shouldReceive('insert')
-    //         ->once();
+        $image->shouldReceive('resize')
+            ->shouldReceive('contrast')->with(-35)
+            ->shouldReceive('insert')
+            ->shouldReceive('save');
         
-    //     $user = factory(User::class)->create();
+        $user = factory(User::class)->make();
+        $member = factory(Member::class)->make();
         
-    //     $card = new Card($manager);
+        $card = new Card($manager);
 
-    //     $card->generate('user.png', $user);
-    // }
-
-    // public function test_獲取店家最新優惠活動計畫()
-    // {
-    //     $user = factory(User::class)->create();
-    //     $member = factory(Member::class)->create();
-    //     $member->activity()->save(
-    //         factory(Activity::class)->create(['description' => 'summer sales'])
-    //     );
-
-    //     $plan = new Plan($user);
-    //     $activity = $plan->getActivity($member->id);
-
-    //     $this->assertEquals('summer sales', $activity->description);
-    // }
+        $card->generate('images/cards/1/user.png', $user, $member);
+    }
 }

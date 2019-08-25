@@ -16,11 +16,13 @@ class CreateActivitiesTable extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('member_id')->unsigned()->index();
+            $table->string('phone_number');
+            $table->string('address');
             $table->integer('points')->default(0);
             $table->text('description')->nullable();
             $table->string('image_path');
-            $table->dateTime('activity_start');
-            $table->dateTime('activity_end');
+            $table->date('activity_start');
+            $table->date('activity_end');
             $table->timestamps();
         });
     }

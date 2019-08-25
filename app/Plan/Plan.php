@@ -10,6 +10,8 @@ use QrCode;
 
 class Plan
 {
+    protected $member;
+
     protected $user;
 
     protected $card;
@@ -23,11 +25,12 @@ class Plan
 
     public function add($memberId, $image)
     {
+        $this->member = Member::find($memberId);
         $path = "images/cards/{$memberId}";
         $imagePath = $image->store($path, 'public');
 
         $this->user->plans()->attach($memberId, ['card' => $imagePath]);
 
-        $this->card->generate($imagePath, $this->user);
+        $this->card->generate($imagePath, $this->user, $this->member);
     }
 }
