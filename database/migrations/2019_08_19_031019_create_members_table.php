@@ -17,6 +17,8 @@ class CreateMembersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('logo')->nullable();
+            $table->string('phone_number');
+            $table->string('address');
             $table->text('qrcode');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

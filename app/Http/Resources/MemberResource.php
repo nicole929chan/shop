@@ -16,7 +16,10 @@ class MemberResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'avatar' => $this->avatar
+            'logo' => $this->logo,
+            'phone_number' => $this->phone_number,
+            'address' => $this->address,
+            'qrcode' => $this->qrcode
         ];
     }
 }

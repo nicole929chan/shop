@@ -9,8 +9,6 @@ use Faker\Generator as Faker;
 $factory->define(Activity::class, function (Faker $faker) {
     return [
         'member_id' => factory(Member::class)->create()->id,
-        'phone_number' => $faker->phoneNumber,
-        'address' => $faker->address,
         'points' => 2,
         'description' => $faker->paragraph,
         'image_path' => $faker->imageUrl,

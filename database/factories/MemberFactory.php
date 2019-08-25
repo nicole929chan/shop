@@ -9,6 +9,8 @@ $factory->define(Member::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'logo' => $faker->image(),
+        'phone_number' => $faker->phoneNumber,
+        'address' => $faker->address,
         'qrcode' => 'qrcode',
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
