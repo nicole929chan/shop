@@ -22,14 +22,4 @@ class MemberIndexTest extends TestCase
             $response->assertJsonFragment(['name' => $member->name]);
         });
     }
-
-    // public function test_使用者瀏覽的店家其優惠期間是有效的()
-    // {
-    //     $members = factory(Member::class)->create();
-    //     $member->activity()->save(
-    //         factory(Activity::class)->create([
-    //             'activity_start' => 
-    //         ]);
-    //     );
-    // }
 }

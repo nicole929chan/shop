@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class MemberResource extends JsonResource
+class MemberResource extends MemberIndexResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +12,8 @@ class MemberResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'name' => $this->name,
-            'logo' => $this->logo,
-            'phone_number' => $this->phone_number,
-            'address' => $this->address,
-            'qrcode' => $this->qrcode
-        ];
+        return array_merge(parent::toArray($request), [
+            'activity' => new ActivityResource($this->activity)
+        ]);
     }
 }

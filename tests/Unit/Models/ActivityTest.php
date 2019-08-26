@@ -15,7 +15,7 @@ class ActivityTest extends TestCase
     public function test_一筆優惠活動屬於一位店家()
     {
         $member = factory(Member::class)->create();
-        $activity = factory(Activity::class)->create(['member_id' => $member->id]);
+        $activity = factory(Activity::class)->make(['member_id' => $member->id]);
 
         $this->assertEquals($member->id, $activity->member->id);
     }
@@ -26,4 +26,34 @@ class ActivityTest extends TestCase
 
     //     $this->assertEquals('2019-12-25 00:00:00', $activity->activity_start);
     // }
+
+    public function test_判斷優惠活動的有效性()
+    {
+        $activity = factory(Activity::class)->make([
+            'activity_start' => now()->subDay(1),
+            'activity_end' => now()->addDay(1),
+        ]);
+
+        $this->assertTrue($activity->getValid());
+    }
+
+    public function test_判斷優惠活動的無效性()
+    {
+        $activity = factory(Activity::class)->make([
+            'activity_start' => now()->subDay(3),
+            'activity_end' => now()->subDay(1),
+        ]);
+
+        $this->assertFalse($activity->getValid());
+    }
+
+    public function test_判斷優惠活動尚未生效()
+    {
+        $activity = factory(Activity::class)->make([
+            'activity_start' => now()->addDay(1),
+            'activity_end' => now()->addDays(3),
+        ]);
+
+        $this->assertFalse($activity->getValid());
+    }
 }
