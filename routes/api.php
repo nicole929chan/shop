@@ -14,3 +14,5 @@ Route::resource('plan', 'Plan\PlanController', [
         'plan' => 'member'
     ]
 ]);
+
+Route::get('user/{user}/plans', 'Plan\UserPlansController@action');
