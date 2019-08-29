@@ -27,7 +27,7 @@ class Card
         });
         $image->contrast(-35);
         $image->insert($qrcodePath, 'center');
-        $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
+        // $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
 
         $this->destroyQrcode($qrcodePath);

@@ -21,11 +21,16 @@ class UserPlansController extends Controller
         $member_id = $request->member_id;
 
         if(is_null($member_id)) {
-            return MemberResource::collection($user->plans);
+            if($user->plans) {
+                return MemberResource::collection($user->plans);
+            }
+        } else {
+            $plan = $user->plans()->wherePivot('member_id', $member_id)->first();
+            if($plan) {
+                return new MemberResource($plan);
+            }
         }
-
-        $plan = $user->plans()->wherePivot('member_id', $member_id)->first();
         
-        return new MemberResource($plan);
+        return null;
     }
 }

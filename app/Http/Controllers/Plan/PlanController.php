@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Plan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Plan\PlanStoreRequest;
+use App\Http\Resources\MemberResource;
+use App\Models\Member;
 use App\Plan\Plan;
 
 class PlanController extends Controller
@@ -18,7 +20,8 @@ class PlanController extends Controller
         $plan->add($request->member_id, $request->file('image'));
 
         return response()->json([
-            'msg' => 'Joined successfully!'
+            'msg' => 'Joined successfully!',
+            'plan' => new MemberResource(Member::find($request->member_id))
         ], 200);
     }
 }
