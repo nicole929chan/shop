@@ -20,6 +20,7 @@ class CreateMembersTable extends Migration
             $table->string('phone_number');
             $table->string('address');
             $table->text('qrcode');
+            $table->boolean('admin')->default(false);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
