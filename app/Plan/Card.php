@@ -25,8 +25,8 @@ class Card
         $image->resize(375, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $image->contrast(-35);
-        $image->insert($qrcodePath, 'center');
+        $image->contrast(-15);
+        $image->insert($qrcodePath, 'bottom-right', 10, 13);
         // $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
 
