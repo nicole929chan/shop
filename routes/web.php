@@ -11,3 +11,6 @@ Route::post('logout', 'Admin\Auth\LoginController@logout')->name('logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('members/{member}', 'Admin\Member\MemberController@show')->name('member.show');
+
+Route::get('getPoints/{id}', 'Admin\Point\PointController@getPoints')->name('getPoints');
+Route::post('getPoints', 'Admin\Point\PointController@store');

@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Activity;
 use App\Models\Member;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,5 +28,15 @@ class MemberTest extends TestCase
         $activity = factory(Activity::class)->create(['member_id' => $member->id]);
 
         $this->assertInstanceOf(Activity::class, $member->activity);
+    }
+
+    public function test_店家有多位使用者()
+    {
+        $member = factory(Member::class)->create();
+        $user = factory(User::class)->create();
+       
+        $member->users()->attach($user, ['card' => 'images/cards/xyz.jpg']);
+
+        $this->assertEquals(1, $member->users->count());
     }
 }
