@@ -17,7 +17,7 @@ class MemberIndexResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => $this->logo,
+            'logo' => url('storage/'.$this->logo),
             'phone_number' => $this->phone_number,
             'address' => $this->address,
             'qrcode' => $this->qrcode

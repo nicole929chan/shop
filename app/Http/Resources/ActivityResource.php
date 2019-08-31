@@ -18,7 +18,7 @@ class ActivityResource extends JsonResource
             'id' => $this->id,
             'points' => $this->points,
             'description' => $this->description,
-            'image_path' => $this->image_path,
+            'image_path' => url('storage/'.$this->image_path),
             'activity_start' => $this->activity_start,
             'activity_end' => $this->activity_end
         ];
