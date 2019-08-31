@@ -29,4 +29,11 @@ class UserTest extends TestCase
         $this->assertEquals(1, $user->plans->count());
 
     }
+
+    public function test_使用者有一組兌換隨機碼()
+    {
+        $user = factory(User::class)->create(['code' => '12345']);
+
+        $this->assertNotEquals('12345', $user->code);
+    }
 }

@@ -25,7 +25,7 @@ class Card
         $image->resize(375, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $image->contrast(-15);
+        $image->contrast(-35);
         $image->insert($qrcodePath, 'bottom-right', 10, 13);
         // $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
@@ -35,7 +35,7 @@ class Card
 
     public function getPointsURL($user)
     {
-        return config('app.url') . "/getPoints/{$user->id}";
+        return config('app.url') . "/getPoints/{$user->code}";
     }
 
     public function generateQrcode($user)

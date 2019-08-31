@@ -24,7 +24,7 @@ class CardTest extends TestCase
     {
         $user = factory(User::class)->create();
         $manager = new ImageManager();
-        $url = config('app.url') . "/getPoints/{$user->id}";
+        $url = config('app.url') . "/getPoints/{$user->code}";
 
         $card = new Card($manager);
 

@@ -35,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
 
         static::creating(function($user) {
             $user->password = bcrypt($user->password);
+            $user->code = substr(rand(), 1, 5);
         });
     }
 
