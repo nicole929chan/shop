@@ -10,13 +10,19 @@ class Member extends Authenticatable
 {
     use Notifiable;
 
+    protected $guarded = [];
+    // protected $fillable
+    //  = [
+    //     'name', 'code', 'phone_number', 'address', 'qrcode'
+    // ];
+
     public static function boot()
     {
         parent::boot();
 
         static::created(function ($member) { 
             $member->qrcode = config('app.url') . "/api/members/{$member->id}";
-            $member->code = substr(rand(), 1, 5);
+            $member->code = substr(rand(), 1, 6);
             $member->save();
         });
     }

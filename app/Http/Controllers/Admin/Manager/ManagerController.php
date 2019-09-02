@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Manager;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\ManagerStoreRequest;
 use App\Models\Member;
 
 class ManagerController extends Controller
@@ -25,5 +25,26 @@ class ManagerController extends Controller
         }
 
         return view('manager.index', compact('members'));
+    }
+
+    public function store(ManagerStoreRequest $request)
+    {
+        if(!auth()->guard('web')->user()->admin)
+            abort(403);
+        
+        $member = Member::create([
+            'name' => $request->name,
+            'code' => '123456',
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'email' => $request->email,
+            'password' => 'password'
+        ]);
+
+        if($logo = $request->file('logo')) {
+            $member->logo = $logo->store("images/members/{$member->id}", 'public');
+            $member->save();
+        }       
+
     }
 }
