@@ -22,8 +22,8 @@ class GetPointsTest extends TestCase
             ->assertStatus(200);
 
         $this->post('getPoints', [
-            'code' => $user->code,
-            'member_id' => $member->id,
+            'user_code' => $user->code,
+            'member_code' => $member->code,
             'points' => 10
         ]);
 
@@ -32,5 +32,48 @@ class GetPointsTest extends TestCase
             'member_id' => $member->id,
             'points' => 10
         ]);
+    }
+
+    public function test_贈送點數的使用者代碼必填()
+    {
+        $this->storePoints('user_code', null)
+            ->assertSessionHasErrors(['user_code']);
+    }
+
+    public function test_贈送點數的使用者代碼必需存在()
+    {
+        $this->storePoints('user_code', '99999')
+            ->assertSessionHasErrors(['user_code']);
+    }
+
+    public function test_贈送點數的店家代碼必填()
+    {
+        $this->storePoints('member_code', null)
+            ->assertSessionHasErrors(['member_code']);
+    }
+
+    public function test_贈送點數的店家代碼必需存在()
+    {
+        $this->storePoints('member_code', '99999')
+            ->assertSessionHasErrors(['member_code']);
+    }
+
+    public function test_贈送的點數必須大於零()
+    {
+        $this->storePoints('points', 0)
+            ->assertSessionHasErrors(['points']);
+    }
+
+    protected function storePoints($key, $value)
+    {
+        $attributes = [
+            'user_code' => '12587',
+            'member_code' => '96325',
+            'points' => 10
+        ];
+
+        $attributes[$key] = $value;
+
+        return $this->post('getPoints', $attributes);
     }
 }

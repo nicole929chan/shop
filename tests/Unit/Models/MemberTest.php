@@ -22,6 +22,13 @@ class MemberTest extends TestCase
         $this->assertEquals($qrcode, $member->fresh()->qrcode);
     }
 
+    public function test_新增店家時移一併產生店家代碼()
+    {
+        $member = factory(Member::class)->create(['code' => '12345']);
+
+        $this->assertNotEquals('12345', $member->fresh()->code);
+    }
+
     public function test_店家有一筆優惠活動()
     {
         $member = factory(Member::class)->create();

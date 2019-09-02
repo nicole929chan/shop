@@ -6,12 +6,12 @@
   <form action="#">
     @csrf
     <div>
-      <label for="code">兌換代號</label>
-      <input type="text" name="code" value="{{ $user->code }}">
+      <label for="code">使用者代碼</label>
+      <input type="text" name="user_code" value="{{ $user->code }}">
     </div>
     <div>
-      <label for="member_id">店家代號</label>
-      <input type="text" name="member_id">
+      <label for="member_id">店家代碼</label>
+      <input type="text" name="member_code">
     </div>
     <div>
       <label for="points">贈與點數</label>

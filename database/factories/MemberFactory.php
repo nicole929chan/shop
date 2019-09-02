@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Member::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'code' => substr(rand(), 1, 5),
         'logo' => $faker->image(),
         'phone_number' => $faker->phoneNumber,
         'address' => $faker->address,
