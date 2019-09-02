@@ -27,7 +27,8 @@ class Member extends Authenticatable
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_plan');
+        return $this->belongsToMany(User::class, 'user_plan')
+            ->orderBy('name', 'asc');
     }
     
 }

@@ -10,14 +10,9 @@ class MemberPolicy
 {
     use HandlesAuthorization;
 
-    public function before(Member $authMember)
-    {
-        return $authMember->admin;
-    }
-
     public function show(Member $authMember, Member $member)
     {
-        return $authMember->id == $member->id;
+        return $authMember->admin || $authMember->id == $member->id;
     }
 
 }
