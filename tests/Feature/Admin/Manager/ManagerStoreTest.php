@@ -72,11 +72,38 @@ class ManagerStoreTest extends TestCase
         $this->storeManager(['email' => null])->assertSessionHasErrors(['email']);
     }
 
-    // public function test_新增的店家郵件格式需正確()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $this->storeManager(['email' => 'foo@example'])->assertSessionHasErrors(['email']);
-    // }
+    public function test_新增的店家郵件格式需正確()
+    {
+        $this->storeManager(['email' => 'foo@'])->assertSessionHasErrors(['email']);
+    }
+
+    public function test_新增的店家啟用日期必填()
+    {
+        $this->storeManager(['start_date' => null])->assertSessionHasErrors(['start_date']);
+    }
+
+    public function test_新增的店家啟用日期須為日期格式()
+    {
+        $this->storeManager(['start_date' => 'foo'])->assertSessionHasErrors(['start_date']);
+    }
+
+    public function test_新增的店家結束日期必填()
+    {
+        $this->storeManager(['finish_date' => null])->assertSessionHasErrors(['finish_date']);
+    }
+
+    public function test_新增的店家結束日期須為日期格式()
+    {
+        $this->storeManager(['finish_date' => 'foo'])->assertSessionHasErrors(['finish_date']);
+    }
+
+    public function test_新增的店家結束日期必需大於啟用日期()
+    {
+        $this->storeManager([
+            'start_date' => '2018-01-03',
+            'finish_date' => '2018-01-01'
+        ])->assertSessionHasErrors(['finish_date']);
+    }
 
     protected function actingAsAdmin($member = null)
     {

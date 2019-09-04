@@ -18,13 +18,18 @@ class ManagerController extends Controller
         if(!auth()->guard('web')->user()->admin)
             abort(403);
 
-        $members = Member::orderBy('name')->get();
+        $members = Member::orderBy('name')->paginate(20);
 
         if(request()->wantsJson()) {
             return $members;
         }
 
         return view('manager.index', compact('members'));
+    }
+
+    public function create()
+    {
+        return view('manager.create');
     }
 
     public function store(ManagerStoreRequest $request)
@@ -44,7 +49,13 @@ class ManagerController extends Controller
         if($logo = $request->file('logo')) {
             $member->logo = $logo->store("images/members/{$member->id}", 'public');
             $member->save();
-        }       
+        }
 
+        return redirect(route('manager.show', [$member->id]));
+    }
+
+    public function show(Member $member)
+    {
+        return view('manager.show', compact('member'));
     }
 }

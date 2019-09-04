@@ -10,11 +10,10 @@ class Member extends Authenticatable
 {
     use Notifiable;
 
-    protected $guarded = [];
-    // protected $fillable
-    //  = [
-    //     'name', 'code', 'phone_number', 'address', 'qrcode'
-    // ];
+    protected $fillable
+     = [
+        'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password'
+    ];
 
     public static function boot()
     {

@@ -27,7 +27,9 @@ class ManagerStoreRequest extends FormRequest
             'name' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'start_date' => 'required|date',
+            'finish_date' => 'required|date|after:start_date'
         ];
     }
 }

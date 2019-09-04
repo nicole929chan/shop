@@ -25,6 +25,8 @@ class CreateMembersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('finish_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

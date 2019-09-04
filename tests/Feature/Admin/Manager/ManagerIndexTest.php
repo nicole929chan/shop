@@ -44,7 +44,7 @@ class ManagerIndexTest extends TestCase
 
         $response = $this->json('GET', 'manager')->json();
 
-        $this->assertEquals(['Admin', 'Bear', 'John'], array_column($response, 'name'));
+        $this->assertEquals(['Admin', 'Bear', 'John'], array_column($response['data'], 'name'));
     }
 
     protected function actingAsAdmin($member = null)
