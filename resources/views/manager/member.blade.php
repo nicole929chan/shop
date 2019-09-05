@@ -17,7 +17,7 @@
                     <div>{{ $member->address }}</div>
                 </div>
                 <div>
-                    <div><strong>{{ $member->active_start }} ~ {{ $member->active_end }}</strong></div>
+                    <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
                     <div>{{ $member->qrcode }}</div>
                     <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
                 </div>

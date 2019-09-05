@@ -13,6 +13,8 @@ Route::get('manager/{member}', 'Admin\Manager\ManagerController@show')->name('ma
 Route::get('manager', 'Admin\Manager\ManagerController@index')->name('manager.index');
 Route::post('manager', 'Admin\Manager\ManagerController@store');
 
+Route::post('activity', 'Admin\Manager\ActivityController@store')->name('activity.store');
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('members/{member}', 'Admin\Member\MemberController@show')->name('member.show');
 Route::get('users/{member}', 'Admin\Member\UserController@index')->name('user.index');
