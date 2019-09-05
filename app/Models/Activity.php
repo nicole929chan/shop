@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    protected $guarded = [];
+    
     public function getValid()
     {
         return $this->activity_start < now() && $this->activity_end > now();
