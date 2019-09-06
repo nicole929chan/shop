@@ -14,6 +14,7 @@ Route::get('manager', 'Admin\Manager\ManagerController@index')->name('manager.in
 Route::post('manager', 'Admin\Manager\ManagerController@store');
 
 Route::post('activity', 'Admin\Manager\ActivityController@store')->name('activity.store');
+Route::patch('activity/{activity}', 'Admin\Manager\ActivityController@update')->name('activity.update');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('members/{member}', 'Admin\Member\MemberController@show')->name('member.show');
