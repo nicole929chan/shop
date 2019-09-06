@@ -56,6 +56,8 @@ class ManagerController extends Controller
 
     public function show(Member $member)
     {
+        $member->load('activity');
+        
         return view('manager.show', compact('member'));
     }
 }

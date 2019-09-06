@@ -18,7 +18,7 @@ class ActivityController extends Controller
         if(!auth()->guard('web')->user()->admin)
             abort(403);
 
-        Activity::create([
+        $activity = Activity::create([
             'member_id' => $request->member_id,
             'points' => $request->points,
             'description' => $request->description,
@@ -26,5 +26,7 @@ class ActivityController extends Controller
             'activity_end' => $request->activity_end,
             'image_path' => $request->file('image_path')->store("images/members/{$request->member_id}", 'public')
         ]);
+
+        return $activity;
     }
 }
