@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-end">
-      <a href="#" @click.prevent="editActivity" v-show="!add">Edit Activity</a>
+      <a href="#" @click.prevent="editActivity" v-show="!add" class="mr-2">Edit Activity</a>
       <a href="#" @click.prevent="discard" v-show="edit">Discard</a>
     </div>
     <div v-if="show">

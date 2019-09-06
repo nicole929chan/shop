@@ -48,36 +48,23 @@ export default {
   data () {
     return {
       form: {
-        member_id: this.activity.member_id,
         points: this.activity.points,
         description: this.activity.description,
-        activity_start: {
-          d: '01',
-          m: '01',
-          y: '2019'
-        },
-        activity_end: this.activity.activity_end,
+        activity_start: '',
+        activity_end: '',
         image: {}
       },
       src: null,
       errors: {}
     }
   },
-  computed: {
-    start: {
-      get () {
-        const date = new Date(this.activity.activity_start)
-        return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-      },
-      set () {
-        
-      }
-    }
-  },
   mounted () {
-    const start = new Date(this.activity.activity_start)
-    console.log(start.getFullYear())
-  },  
+    const start = moment(this.activity.activity_start)
+    const end = moment(this.activity.activity_end)
+
+    this.form.activity_start = start.format('YYYY-MM-DD')
+    this.form.activity_end = end.format('YYYY-MM-DD')
+  },
   methods: {
     onChange (e) {
       if (!e.target.files.length) {
@@ -95,7 +82,20 @@ export default {
       }
     },
     async submit () {
-      console.log(new Date(this.activity.activity_start))
+      try {
+        const data = new FormData()
+        data.append('points', this.form.points)
+        data.append('description', this.form.description)
+        data.append('activity_start', this.form.activity_start)
+        data.append('activity_end', this.form.activity_end)
+        data.append('image_path', this.form.image)
+        
+        const response = await axios.patch(`../activity/${this.activity.id}`, data)
+
+        this.errors = {}
+      } catch (e) {
+        this.errors = e.response.data.errors
+      }
     }
   }
 }
