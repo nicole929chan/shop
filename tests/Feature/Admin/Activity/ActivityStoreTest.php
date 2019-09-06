@@ -27,13 +27,7 @@ class ActivityStoreTest extends TestCase
             'web'
         );
 
-        $member = factory(Member::class)->create();
-        $activity = factory(Activity::class)->make([
-            'member_id' => $member->id,
-            'image_path' => $image = UploadedFile::fake()->image('desc.png')
-        ]);
-
-        $this->post(route('activity.store'), $activity->toArray())
+        $this->post(route('activity.store'), [])
             ->assertStatus(403);
     }
 

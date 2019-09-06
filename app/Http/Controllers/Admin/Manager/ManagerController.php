@@ -10,14 +10,11 @@ class ManagerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:web']);
+        $this->middleware(['auth:web', 'admin']);
     }
 
     public function index()
     {
-        if(!auth()->guard('web')->user()->admin)
-            abort(403);
-
         $members = Member::orderBy('name')->paginate(20);
 
         if(request()->wantsJson()) {
@@ -34,9 +31,6 @@ class ManagerController extends Controller
 
     public function store(ManagerStoreRequest $request)
     {
-        if(!auth()->guard('web')->user()->admin)
-            abort(403);
-        
         $member = Member::create([
             'name' => $request->name,
             'code' => '123456',

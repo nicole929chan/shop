@@ -15,10 +15,10 @@ class AbortIfUnauthroized
      */
     public function handle($request, Closure $next)
     {
-        if (!auth('web')->user()->admin) {
-            abort(403);
+        if (auth('web')->user()->admin) {
+            return $next($request);    
         }
 
-        return $next($request);
+        abort(403);
     }
 }

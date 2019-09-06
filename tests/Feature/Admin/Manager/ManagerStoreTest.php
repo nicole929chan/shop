@@ -25,6 +25,8 @@ class ManagerStoreTest extends TestCase
             'web'
         );
 
+        $this->get(route('manager.create'))->assertStatus(403);
+
         $member = factory(Member::class)->create();
         
         $this->post('manager', $member->toArray())
