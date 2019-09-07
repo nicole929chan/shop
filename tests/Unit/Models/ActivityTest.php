@@ -31,7 +31,7 @@ class ActivityTest extends TestCase
     {
         $activity = factory(Activity::class)->make([
             'activity_start' => now()->subDay(1),
-            'activity_end' => now()->addDay(1),
+            'activity_end' => now()->addDay(1)->format('Y-m-d'),
         ]);
 
         $this->assertTrue($activity->getValid());
@@ -41,7 +41,7 @@ class ActivityTest extends TestCase
     {
         $activity = factory(Activity::class)->make([
             'activity_start' => now()->subDay(3),
-            'activity_end' => now()->subDay(1),
+            'activity_end' => now()->subDay(1)->format('Y-m-d'),
         ]);
 
         $this->assertFalse($activity->getValid());
@@ -51,7 +51,7 @@ class ActivityTest extends TestCase
     {
         $activity = factory(Activity::class)->make([
             'activity_start' => now()->addDay(1),
-            'activity_end' => now()->addDays(3),
+            'activity_end' => now()->addDays(3)->format('Y-m-d'),
         ]);
 
         $this->assertFalse($activity->getValid());

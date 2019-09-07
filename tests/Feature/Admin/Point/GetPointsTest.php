@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Point;
 
+use App\Models\Activity;
 use App\Models\Member;
 use App\Models\User;
 use Tests\TestCase;
@@ -16,6 +17,9 @@ class GetPointsTest extends TestCase
     {
         $member= factory(Member::class)->create();
         $user = factory(User::class)->create();
+        $member->activity()->save(
+            $activity = factory(Activity::class)->create()
+        );
         $member->users()->attach($user, ['card' => 'images/cards/xyz.jpg']);
         
         $this->get(route('getPoints', [$user->code]))
@@ -68,12 +72,34 @@ class GetPointsTest extends TestCase
     {
         $user = factory(User::class)->create();
         $member = factory(Member::class)->create();
+        $member->activity()->save(
+            $activity = factory(Activity::class)->create()
+        );
 
         $this->post('getPoints', [
             'user_code' => $user->code,
             'member_code' => $member->code,
             'points' => 10
         ])->assertSessionHasErrors('user_code');
+    }
+
+    public function test_店家的活動期間須有效才能贈點()
+    {
+        $member = factory(Member::class)->create();
+        $user = factory(User::class)->create();
+        $member->activity()->save(
+            $activity = factory(Activity::class)->create([
+                'activity_start' => '2019-01-01',
+                'activity_end' => '2019-01-02'
+            ])
+        );
+        $member->users()->attach($user, ['card' => 'images/cards/xyz.jpg']);
+
+        $this->post('getPoints', [
+            'user_code' => $user->code,
+            'member_code' => $member->code,
+            'points' => 10
+        ])->assertSessionHasErrors('member_code');
     }
 
     protected function storePoints($key, $value)

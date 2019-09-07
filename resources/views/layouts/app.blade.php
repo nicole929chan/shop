@@ -37,7 +37,7 @@
                         @auth('web')
                             <li class="nav-item">
                                 @if(auth('web')->user()->admin)
-                                    <a href="{{ route('manager.index') }}">Members</a>
+                                    <a href="{{ route('manager.index') }}" class="nav-link">Members</a>
                                 @else
                                     <a href="{{ route('member.show', [auth('web')->user()->id])}}" class="nav-link">Activity</a>
                                 @endif
