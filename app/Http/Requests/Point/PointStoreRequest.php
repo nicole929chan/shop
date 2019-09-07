@@ -25,8 +25,8 @@ class PointStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'member_code' => 'required|exists:members,code',
             'user_code' => ['required', 'exists:users,code', new MustHavePlan(request('member_code'))],
+            'member_code' => 'required|exists:members,code',
             'points' => 'numeric|min:1'
         ];
     }

@@ -39,10 +39,12 @@ class PointController extends Controller
         $user = User::whereCode($request->user_code)->first();
         $member = Member::whereCode($request->member_code)->first();
         
-        Point::create([
+        $point = Point::create([
             'user_id' => $user->id,
             'member_id' => $member->id,
             'points' => $request->points
         ]);
+
+        return redirect('getPoints/code')->with('flash_message', 'done!');
     }
 }

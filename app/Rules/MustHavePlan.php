@@ -32,15 +32,17 @@ class MustHavePlan implements Rule
         $user = User::whereCode($value)->first();
         $member = Member::whereCode($this->memberCode)->first();
 
-        $user = User::where('id', $user->id)->whereHas('plans', function ($q) use ($member) {
-            $q->where('member_id', $member->id);
-        })->first();
+        if(is_null($user) || is_null($member)) {
+            return false;
+        } else {
+            $user = User::where('id', $user->id)->whereHas('plans', function ($q) use ($member) {
+                $q->where('member_id', $member->id);
+            })->first();
 
-       if (is_null($user)) {
-           return false;
-       }
+            if($user) return true;
+        }
 
-       return true;
+       return false;
     }
 
     /**

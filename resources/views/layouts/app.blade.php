@@ -39,11 +39,11 @@
                                 @if(auth('web')->user()->admin)
                                     <a href="{{ route('manager.index') }}">Members</a>
                                 @else
-                                    <a href="{{ route('member.show', [auth('web')->user()->id])}}">Activity</a>
+                                    <a href="{{ route('member.show', [auth('web')->user()->id])}}" class="nav-link">Activity</a>
                                 @endif
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('getPoints', ['code']) }}">getPoints</a>
+                                <a href="{{ route('getPoints', ['code']) }}" class="nav-link">Get Points</a>
                             </li>
                         @endauth
                     </ul>
@@ -85,6 +85,14 @@
         </nav>
 
         <main class="p-4">
+            @if(Session::has('flash_message'))
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-info w-75">
+                        <div class="text-center">{{ Session::get('flash_message') }}</div>
+                    </div>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>
