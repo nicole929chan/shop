@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Point;
 
+use App\Rules\MustHavePlan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PointStoreRequest extends FormRequest
@@ -24,9 +25,16 @@ class PointStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_code' => 'required|exists:users,code',
             'member_code' => 'required|exists:members,code',
+            'user_code' => ['required', 'exists:users,code', new MustHavePlan(request('member_code'))],
             'points' => 'numeric|min:1'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'member_code.required' => 'Your code is required.',
         ];
     }
 }

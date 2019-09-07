@@ -64,6 +64,18 @@ class GetPointsTest extends TestCase
             ->assertSessionHasErrors(['points']);
     }
 
+    public function test_使用者必須有加入該店家才能贈與點數()
+    {
+        $user = factory(User::class)->create();
+        $member = factory(Member::class)->create();
+
+        $this->post('getPoints', [
+            'user_code' => $user->code,
+            'member_code' => $member->code,
+            'points' => 10
+        ])->assertSessionHasErrors('user_code');
+    }
+
     protected function storePoints($key, $value)
     {
         $attributes = [
