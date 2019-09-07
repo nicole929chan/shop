@@ -29,7 +29,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
     /**
@@ -39,9 +39,13 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request, $member)
     {
-        return redirect()->route('member.show', ['member' => $user->id]);
+        if ($member->admin) {
+            return redirect()->route('manager.index');
+        }
+
+        return redirect()->route('member.show', ['member' => $member->id]);
     }
 
     /**

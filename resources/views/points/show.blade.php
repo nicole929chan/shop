@@ -7,7 +7,7 @@
     @csrf
     <div>
       <label for="code">使用者代碼</label>
-      <input type="text" name="user_code" value="{{ $user->code }}">
+      <input type="text" name="user_code" value="{{ $code }}">
     </div>
     <div>
       <label for="member_id">店家代碼</label>

@@ -36,4 +36,18 @@ class LoginTest extends TestCase
             
         $this->assertNull(auth()->guard('web')->user());
     }
+
+    // public function test_管理員登入後導向所有店家清單頁面()
+    // {
+    //     $admin = factory(Member::class)->create();
+    //     $admin->admin = true;
+    //     $admin->save();
+        
+    //     $this->actingAs($admin, 'web');
+
+    //     $this->post('login', [
+    //         'email' => $admin->email,
+    //         'password' => 'password'
+    //     ])->assertRedirect(route('manager.index'));
+    // }
 }

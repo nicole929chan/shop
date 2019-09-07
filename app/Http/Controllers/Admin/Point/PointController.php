@@ -20,7 +20,12 @@ class PointController extends Controller
     {
         $user = User::whereCode($code)->first();
 
-       return view('points.show', compact('user'));
+        if(is_null($user) || $code == 'code') {
+            $code = '';
+            return view('points.show', compact('code'));
+        }
+
+       return view('points.show', compact('code'));
     }
 
     /**
