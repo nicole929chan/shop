@@ -1,14 +1,17 @@
 <template>
   <div>
     <div class="d-flex justify-content-end">
-      <a href="#" @click.prevent="editActivity" v-show="!add" class="mr-2">Edit Activity</a>
-      <a href="#" @click.prevent="discard" v-show="edit">Discard</a>
+      <a href="#" @click.prevent="editActivity" v-show="!add" class="mb-2">Edit Activity</a>
     </div>
     <div v-if="show">
-      <img :src="image" alt="">
+      <figure class="">
+        <img :src="image" class="figure-img img-fluid rounded" alt="">
+      </figure>
       <div>{{ activity.description }}</div>
+      <div>{{ activity.activity_start}}</div>
+      <div>{{ activity.activity_end }}</div>
     </div>
-    <activity-edit-form :activity="activity" v-if="edit"></activity-edit-form>
+    <activity-edit-form :activity="activity" v-if="edit" @discard="discard"></activity-edit-form>
     <activity-add-form :member="member" v-if="add" @addActivity="addActivity"></activity-add-form>
   </div>
 </template>
@@ -47,9 +50,6 @@ export default {
     }
   },
   methods: {
-    discard () {
-      
-    },
     editActivity () {
       this.edit = true
       this.show = false
@@ -62,6 +62,10 @@ export default {
       this.activity_start = activity.activity_start
       this.activity_end = activity.activity_end
       this.add = false
+      this.show = true
+    },
+    discard () {
+      this.edit = false
       this.show = true
     }
   }

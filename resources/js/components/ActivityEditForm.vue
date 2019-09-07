@@ -27,16 +27,19 @@
       </div>
       <div class="form-group">
         <label>Image</label>
-        <div class="custom-file">
+        <div>
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="image" @change="onChange">
-            <label class="custom-file-label" for="image" data-browse="Browse">Choose file</label>
+            <input type="file" class="custom-file-inputx" id="image" @change="onChange">
+            <label class="custom-file-labelx" for="image" data-browse="Browse"></label>
           </div>
           <small class="text-danger" v-if="errors.image_path">{{ errors.image_path[0] }}</small>
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary w-25">Submit</button>
+        <button type="submit" class="btn btn-primary w-25 mr-4">Submit</button>
+        <div class="d-flex align-items-end">
+          <a href="#" @click.prevent="discard" >Discard</a>
+        </div>
       </div>
     </form>
   </div>
@@ -55,17 +58,32 @@ export default {
         image: {}
       },
       src: null,
-      errors: {}
+      errors: {},
+      current: {
+        points: this.activity.points,
+        description: this.activity.description,
+        activity_start: this.activity.activity_start,
+        activity_end: this.activity.activity_end
+      }
     }
   },
   mounted () {
-    const start = moment(this.activity.activity_start)
-    const end = moment(this.activity.activity_end)
-
-    this.form.activity_start = start.format('YYYY-MM-DD')
-    this.form.activity_end = end.format('YYYY-MM-DD')
+    this.form.activity_start = this.processDate(this.activity.activity_start)
+    this.form.activity_end = this.processDate(this.activity.activity_end)
   },
   methods: {
+    discard () {
+      this.form.points = this.current.points
+      this.form.description = this.current.description
+      this.form.activity_start = this.processDate(this.current.activity_start)
+      this.form.activity_end= this.processDate(this.current.activity_end)
+      this.form.image = {}
+
+      this.$emit('discard')
+    },
+    processDate (date) {
+      return  moment(date).format('YYYY-MM-DD')
+    },
     onChange (e) {
       if (!e.target.files.length) {
         return
@@ -89,8 +107,9 @@ export default {
         data.append('activity_start', this.form.activity_start)
         data.append('activity_end', this.form.activity_end)
         data.append('image_path', this.form.image)
-        
-        const response = await axios.patch(`../activity/${this.activity.id}`, data)
+        data.append('_method', 'PATCH')
+
+        const response = await axios.post(`../activity/${this.activity.id}`, data)
 
         this.errors = {}
       } catch (e) {

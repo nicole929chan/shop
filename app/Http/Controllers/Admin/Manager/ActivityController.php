@@ -35,7 +35,9 @@ class ActivityController extends Controller
 
         if ($image = $request->file('image_path')) {
             Storage::disk('public')->delete($activity->image_path);
-            $image->store("images/members/{$activity->member->id}", 'public');
+            $image_path = $image->store("images/members/{$activity->member->id}", 'public');
+            $activity->image_path = $image_path;
+            $activity->save();
         }
         
         return $activity;
