@@ -15,7 +15,7 @@ class ManagerController extends Controller
 
     public function index()
     {
-        $members = Member::orderBy('name')->paginate(20);
+        $members = Member::orderBy('admin', 'desc')->orderBy('name')->paginate(20);
 
         if(request()->wantsJson()) {
             return $members;
