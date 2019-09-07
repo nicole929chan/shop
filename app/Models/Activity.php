@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     protected $guarded = [];
+
+    public function setActivityEndAttribute($value)
+    {
+        $this->attributes['activity_end'] = Carbon::createFromFormat('Y-m-d', $value)
+            ->endOfDay()
+            ->toDateTimeString();
+    }
     
     public function getValid()
     {

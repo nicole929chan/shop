@@ -20,12 +20,12 @@ class ActivityTest extends TestCase
         $this->assertEquals($member->id, $activity->member->id);
     }
 
-    // public function test_優惠活動的開始時間自動加上零時()
-    // {
-    //     $activity = factory(Activity::class)->create(['activity_start' => '2019-12-25']);
+    public function test_優惠活動的結束時間自動加到凌晨()
+    {
+        $activity = factory(Activity::class)->create(['activity_end' => '2019-12-25']);
 
-    //     $this->assertEquals('2019-12-25 00:00:00', $activity->activity_start);
-    // }
+        $this->assertEquals('2019-12-25 23:59:59', $activity->fresh()->activity_end);
+    }
 
     public function test_判斷優惠活動的有效性()
     {
