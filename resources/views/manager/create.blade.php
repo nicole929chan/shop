@@ -44,17 +44,17 @@
                 <label class="col-sm-1 col-form-label">Active: </label>
                 <div class="col-sm-11">
                     <div class="d-flex">
-                        <input type="date" name="active_start" class="form-control" value="{{ old('active_start') }}">
+                        <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}">
                         <div>~</div>
-                        <input type="date" name="active_end" class="form-control" value="{{ old('active_end') }}">
+                        <input type="date" name="finish_date" class="form-control" value="{{ old('finish_date') }}">
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="logo" class="col-sm-1 col-form-label">Logo: </label>
                 <div class="col-sm-11 custom-file">
-                    <input type="file" name="logo" class="custom-file-input">
-                    <label class="custom-file-label">Choose file</label>
+                    <input type="file" name="logo" class="custom-file-inputx">
+                    <label class="custom-file-labelx"></label>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
