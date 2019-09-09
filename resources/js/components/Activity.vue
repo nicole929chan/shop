@@ -7,11 +7,11 @@
       <figure class="">
         <img :src="image" class="figure-img img-fluid rounded" alt="">
       </figure>
-      <div>{{ activity.description }}</div>
-      <div>{{ activity.activity_start}}</div>
-      <div>{{ activity.activity_end }}</div>
+      <div>Points: {{ activity.points }}</div>
+      <div>Period: {{ activity.activity_start}} ~ {{ activity.activity_end }}</div>
+      <div>Content: {{ activity.description }}</div>
     </div>
-    <activity-edit-form :activity="activity" v-if="edit" @discard="discard"></activity-edit-form>
+    <activity-edit-form :activity="activity" v-if="edit" @updateActivity="updateActivity" @discard="discard"></activity-edit-form>
     <activity-add-form :member="member" v-if="add" @addActivity="addActivity"></activity-add-form>
   </div>
 </template>
@@ -65,6 +65,15 @@ export default {
       this.show = true
     },
     discard () {
+      this.edit = false
+      this.show = true
+    },
+    updateActivity (activity) {
+      this.activity = activity
+      this.points = activity.points
+      this.description = activity.description
+      this.activity_start = activity.activity_start
+      this.activity_end = activity.activity_end
       this.edit = false
       this.show = true
     }

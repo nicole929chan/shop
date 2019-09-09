@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form method="POST" action="{{ action('Admin\Manager\ManagerController@store') }}">
+        <form method="POST" action="{{ action('Admin\Manager\ManagerController@store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
                 <label for="name" class="col-sm-1 col-form-label">Name: </label>

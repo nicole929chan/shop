@@ -28,9 +28,9 @@
       <div class="form-group">
         <label>Image</label>
         <div class="custom-file">
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="image" @change="onChange">
-            <label class="custom-file-label" for="image" data-browse="Browse">Choose file</label>
+          <div class="custom-filex">
+            <input type="file" class="custom-file-inputx" id="image" @change="onChange">
+            <label class="custom-file-labelx" for="image" data-browse="Browse"></label>
           </div>
           <small class="text-danger" v-if="errors.image_path">{{ errors.image_path[0] }}</small>
         </div>

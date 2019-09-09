@@ -12,7 +12,7 @@ class Member extends Authenticatable
 
     protected $fillable
      = [
-        'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password'
+        'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password', 'start_date', 'finish_date', 'logo'
     ];
 
     public static function boot()

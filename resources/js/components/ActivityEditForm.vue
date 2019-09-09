@@ -112,6 +112,7 @@ export default {
         const response = await axios.post(`../activity/${this.activity.id}`, data)
 
         this.errors = {}
+        this.$emit('updateActivity', response.data)
       } catch (e) {
         this.errors = e.response.data.errors
       }

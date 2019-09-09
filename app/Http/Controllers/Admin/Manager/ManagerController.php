@@ -37,7 +37,9 @@ class ManagerController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'email' => $request->email,
-            'password' => 'password'
+            'password' => 'password',
+            'start_date' => $request->start_date,
+            'finish_date' => $request->finish_date
         ]);
 
         if($logo = $request->file('logo')) {
