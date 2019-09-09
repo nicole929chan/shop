@@ -22,4 +22,17 @@ class MemberIndexTest extends TestCase
             $response->assertJsonFragment(['name' => $member->name]);
         });
     }
+
+    public function test_使用者瀏覽的店家排除管理者()
+    {
+        $admin = factory(Member::class)->create();
+        $admin->admin = true;
+        $admin->save();
+
+        $member = factory(Member::class)->create();
+
+        $response = $this->json('GET', 'api/members');
+
+        $response->assertJsonMissing(['name' => $admin->name]);
+    }
 }

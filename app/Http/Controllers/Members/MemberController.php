@@ -12,7 +12,7 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $members = Member::all();
+        $members = Member::where('admin', 0)->get();
 
         return MemberIndexResource::collection($members);
     }
