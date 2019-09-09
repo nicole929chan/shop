@@ -3,7 +3,9 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Member;
+use App\Models\Point;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,5 +37,29 @@ class UserTest extends TestCase
         $user = factory(User::class)->create(['code' => '12345']);
 
         $this->assertNotEquals('12345', $user->code);
+    }
+
+    public function test_使用者有多筆點數增減紀錄()
+    {
+        $user = factory(User::class)->create();
+        $member = factory(Member::class)->create();
+        
+        $user->points()->save(
+            factory(Point::class)->make(['member_id' => $member->id])
+        );
+
+        $this->assertInstanceOf(Collection::class, $user->points);
+    }
+
+    public function test_使用者擁有各店家的一筆剩餘點數紀錄()
+    {
+        $user = factory(User::class)->create();
+        $member = factory(Member::class)->create();
+        
+        $user->points()->save(
+            factory(Point::class)->make(['member_id' => $member->id, 'points' => 10])
+        );
+
+        $this->assertEquals(10, $user->point->first()->pivot->points);
     }
 }

@@ -73,4 +73,25 @@ class User extends Authenticatable implements JWTSubject
             ->withPivot('card')
             ->withTimestamps();
     }
+
+    /**
+     * 點數增減紀錄
+     *
+     * @return void
+     */
+    public function points()
+    {
+        return $this->hasMany(Point::class);
+    }
+
+    /**
+     * 各店家的剩餘點數紀錄
+     *
+     * @return void
+     */
+    public function point()
+    {
+        return $this->belongsToMany(User::class, 'user_member_point_view')
+            ->withPivot(['points', 'member_id']);
+    }
 }
