@@ -52,4 +52,19 @@ class MemberShowTest extends TestCase
                 ]
             ]);
     }
+
+    public function test_瀏覽店家時需標記該使用者加入與否()
+    {
+        $member = factory(Member::class)->create();
+        $member->activity()->save(
+            $activity = factory(Activity::class)->make()
+        );
+
+        $this->json('GET', "api/members/{$member->id}")
+            ->assertJsonStructure([
+                'meta' => [
+                    'added'
+                ]
+            ]);
+    }
 }
