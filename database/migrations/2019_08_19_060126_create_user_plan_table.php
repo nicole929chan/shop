@@ -16,7 +16,8 @@ class CreateUserPlanTable extends Migration
         Schema::create('user_plan', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned()->index();
             $table->bigInteger('member_id')->unsigned()->index();
-            $table->string('card');
+            $table->string('card')->nullable();
+            $table->string('redeem')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

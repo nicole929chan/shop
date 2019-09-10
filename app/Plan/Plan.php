@@ -15,12 +15,16 @@ class Plan
     protected $user;
 
     protected $card;
+    
+    protected $redeem;
 
-    public function __construct(User $user, Card $card)
+    public function __construct(User $user, Card $card, Redeem $redeem)
     {
         $this->user = $user;
 
-        $this->card = $card; 
+        $this->card = $card;
+        
+        $this->redeem = $redeem;
     }
 
     public function add($memberId, $image)
@@ -32,5 +36,7 @@ class Plan
         $this->user->plans()->attach($memberId, ['card' => $imagePath]);
 
         $this->card->generate($imagePath, $this->user, $this->member);
+        
+        $this->redeem->generate($this->user, $this->member);
     }
 }

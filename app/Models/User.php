@@ -35,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
 
         static::creating(function($user) {
             $user->password = bcrypt($user->password);
-            $user->code = substr(rand(), 1, 5);
+            $user->code = substr(rand(), 1, 6);
         });
     }
 
@@ -70,7 +70,7 @@ class User extends Authenticatable implements JWTSubject
     public function plans()
     {
         return $this->belongsToMany(Member::class, 'user_plan')
-            ->withPivot('card')
+            ->withPivot(['card', 'redeem'])
             ->withTimestamps();
     }
 
