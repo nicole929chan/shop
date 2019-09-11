@@ -94,4 +94,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(User::class, 'user_member_point_view')
             ->withPivot(['points', 'member_id']);
     }
+
+    /**
+     * 單一店家的剩餘點數
+     *
+     * @param integer $memberId
+     * @return void
+     */
+    public function pointByMember($memberId)
+    {
+        return $this->belongsToMany(User::class, 'user_member_point_view')
+            ->wherePivot('member_id', $memberId)
+            ->withPivot(['points', 'member_id']);
+    }
 }

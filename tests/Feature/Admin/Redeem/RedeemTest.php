@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin\Redeem;
 
-use App\Models\Activity;
 use App\Models\Member;
+use App\Models\Point;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,11 +20,12 @@ class RedeemTest extends TestCase
         $this->get(route('redeem', [$user->code]))->assertStatus(200);
 
         $member= factory(Member::class)->create();
-        $member->activity()->save(
-            $activity = factory(Activity::class)->make()
-        );
-
         $user->plans()->attach($member);
+        factory(Point::class)->create([
+            'user_id' => $user->id,
+            'member_id' => $member->id,
+            'points' => 1
+        ]);
 
         $this->post('redeem', [
             'user_code' => $user->code,
@@ -73,9 +74,6 @@ class RedeemTest extends TestCase
     {
         $user = factory(User::class)->create();
         $memberNotJoin = factory(Member::class)->create();
-        $memberNotJoin->activity()->save(
-            $activity = factory(Activity::class)->make()
-        );
 
         $this->post('redeem', [
             'user_code' => $user->code,
@@ -84,23 +82,23 @@ class RedeemTest extends TestCase
         ])->assertSessionHasErrors('user_code');
     }
 
-    public function test_店家的活動期間須有效才能兌換()
+    public function test_使用者剩餘點數夠才能兌換()
     {
         $member = factory(Member::class)->create();
         $user = factory(User::class)->create();
-        $member->activity()->save(
-            $activity = factory(Activity::class)->make([
-                'activity_start' => '2019-01-01',
-                'activity_end' => '2019-01-02'
-            ])
-        );
-        $member->users()->attach($user);
+        $user->plans()->attach($member);
+        
+        $points = factory(Point::class)->create([
+            'user_id' => $user->id,
+            'member_id' => $member->id,
+            'points' => 2
+        ]);
 
         $this->post('redeem', [
             'user_code' => $user->code,
             'member_code' => $member->code,
-            'points' => 1
-        ])->assertSessionHasErrors('member_code');
+            'points' => 3
+        ])->assertSessionHasErrors('user_code');
     }
 
     protected function storeRedeem($key, $value)

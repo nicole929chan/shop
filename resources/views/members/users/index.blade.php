@@ -23,11 +23,9 @@
                     <td>{{ $user->code }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        @foreach($user->point as $item)
-                            @if($member->id == $item->pivot->member_id)
-                                <div>{{ $item->pivot->points }}</div>
-                            @endif
-                        @endforeach
+                        @if($item = $user->pointByMember($member->id)->first())
+                            <div>{{ $item->pivot->points }}</div>
+                        @endif
                     </td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>

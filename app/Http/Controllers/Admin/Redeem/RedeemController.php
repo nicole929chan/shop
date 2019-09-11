@@ -12,7 +12,14 @@ class RedeemController extends Controller
 {
     public function redeem($code)
     {
-        
+        $user = User::whereCode($code)->first();
+
+        if(is_null($user) || $code == 'code') {
+            $code = '';
+            return view('redeem.show', compact('code'));
+        }
+
+       return view('redeem.show', compact('code'));
     }
 
     public function store(RedeemStoreRequest $request)
@@ -26,5 +33,7 @@ class RedeemController extends Controller
             'member_id' => $member->id,
             'points' => $points
         ]);
+
+        return redirect('redeem/code')->with('flash_message', 'done!');
     }
 }

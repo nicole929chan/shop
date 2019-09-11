@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Redeem;
 
+use App\Rules\EnoughPoints;
 use App\Rules\MustHavePlan;
-use App\Rules\ValidActivity;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RedeemStoreRequest extends FormRequest
@@ -26,8 +26,8 @@ class RedeemStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_code' => ['required', 'exists:users,code', new MustHavePlan(request('member_code'))],
-            'member_code' => ['required' ,'exists:members,code', new ValidActivity()],
+            'user_code' => ['required', 'exists:users,code', new MustHavePlan(request('member_code')), new EnoughPoints(request('member_code'), request('points'))],
+            'member_code' => ['required' ,'exists:members,code'],
             'points' => 'numeric|min:1'
         ];
     }
