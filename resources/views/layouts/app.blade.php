@@ -45,6 +45,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('getPoints', ['code']) }}" class="nav-link">Get Points</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Redeem</a>
+                            </li>
                         @endauth
                     </ul>
 

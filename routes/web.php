@@ -22,3 +22,6 @@ Route::get('users/{member}', 'Admin\Member\UserController@index')->name('user.in
 
 Route::get('getPoints/{code}', 'Admin\Point\PointController@getPoints')->name('getPoints');
 Route::post('getPoints', 'Admin\Point\PointController@store');
+
+Route::get('redeem/{code}', 'Admin\Redeem\RedeemController@redeem')->name('redeem');
+Route::post('redeem', 'Admin\Redeem\RedeemController@store');
