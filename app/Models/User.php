@@ -105,6 +105,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(User::class, 'user_member_point_view')
             ->wherePivot('member_id', $memberId)
-            ->withPivot(['points', 'member_id']);
+            ->withPivot(['points', 'member_id'])
+            ->first();
     }
 }

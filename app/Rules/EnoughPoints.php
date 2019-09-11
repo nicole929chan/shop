@@ -39,7 +39,7 @@ class EnoughPoints implements Rule
         if(is_null($user) || is_null($member)) {
             return false;
         } else {
-            $item = $user->pointByMember($member->id)->first();
+            $item = $user->pointByMember($member->id);
 
             if($item) {
                 return $item->pivot->points >= $this->points;

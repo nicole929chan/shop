@@ -62,4 +62,16 @@ class UserTest extends TestCase
 
         $this->assertEquals(10, $user->point->first()->pivot->points);
     }
+
+    public function test_單一店家的剩餘點數紀錄()
+    {
+        $user = factory(User::class)->create();
+        $member = factory(Member::class)->create();
+        
+        $user->points()->save(
+            factory(Point::class)->make(['member_id' => $member->id, 'points' => 10])
+        );
+
+        $this->assertEquals(10, $user->pointByMember($member->id)->pivot->points);
+    }
 }

@@ -23,7 +23,7 @@
                     <td>{{ $user->code }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        @if($item = $user->pointByMember($member->id)->first())
+                        @if($item = $user->pointByMember($member->id))
                             <div>{{ $item->pivot->points }}</div>
                         @endif
                     </td>
