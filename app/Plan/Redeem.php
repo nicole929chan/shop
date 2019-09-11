@@ -12,14 +12,15 @@ class Redeem
     public function generate(User $user, Member $member)
     {
         $name = $user->code . '.png';
-        $qrcodePath = public_path("storage/images/members/{$member->id}/redeem/{$name}");
+        $redeemPath = "images/members/{$member->id}/{$name}";
+        $fullPath = public_path("storage/{$redeemPath}");
         
         QrCode::format('png')
             ->size(200)
             ->merge(public_path('storage/'.$member->logo), .1, true)
-            ->generate($this->getPointsURL($user), $qrcodePath);
+            ->generate($this->getPointsURL($user), $fullPath);
 
-        return $qrcodePath;
+        return $redeemPath;
     }
 
     public function getPointsURL($user)

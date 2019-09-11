@@ -4,6 +4,7 @@ namespace App\Plan;
 
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -17,20 +18,28 @@ class Card
         $this->manager = $manager;
     }
 
+    /**
+     * 製作分享卡
+     *
+     * @param string $imagePath 使用者上傳的原始圖檔位置
+     * @param User $user
+     * @param Member $member
+     * @return void
+     */
     public function generate($imagePath, User $user, Member $member)
     {
-        $qrcodePath = $this->generateQrcode($user);
+        $fullPath = $this->generateQrcode($user);
 
         $image = $this->manager->make('storage/' . $imagePath);
         $image->resize(375, null, function ($constraint) {
             $constraint->aspectRatio();
         });
         $image->contrast(-35);
-        $image->insert($qrcodePath, 'bottom-right', 10, 13);
+        $image->insert($fullPath, 'bottom-right', 10, 13);
         // $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
 
-        $this->destroyQrcode($qrcodePath);
+        $this->destroyQrcode($fullPath);
     }
 
     public function getPointsURL($user)
@@ -40,16 +49,16 @@ class Card
 
     public function generateQrcode($user)
     {
-        $name = $user->id . '.png';
+        $name = $user->code . '.png';
         QrCode::format('png')
             ->size(110)
-            ->generate($this->getPointsURL($user), $qrcodePath = public_path("storage/images/{$name}"));
-
-        return $qrcodePath;
+            ->generate($this->getPointsURL($user), $fullPath = public_path("storage/images/{$name}"));
+        
+        return $fullPath;
     }
 
-    public function destroyQrcode($qrcodePath)
+    public function destroyQrcode($fullPath)
     {
-        unlink($qrcodePath);
+        unlink($fullPath);
     }
 }

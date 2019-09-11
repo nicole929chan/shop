@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\User;
 use App\Plan\Card;
 use App\Plan\Plan;
+use App\Plan\Redeem;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,6 +21,7 @@ class PlanTest extends TestCase
 
     public function test_店家的優惠活動計畫被參加()
     {
+        Storage::fake('public');
         $user = factory(User::class)->create();       
         $member = factory(Member::class)->create();
         $image = UploadedFile::fake()->image('photo.jpg');
@@ -28,8 +30,13 @@ class PlanTest extends TestCase
         app()->instance(Card::class, $card);
         
         $card->shouldReceive('generate')->once();
+        
+        $redeem = Mockery::mock(Redeem::class);
+        app()->instance(Redeem::class, $redeem);
 
-        $plan = new Plan($user, $card);
+        $redeem->shouldReceive('generate');
+
+        $plan = new Plan($user, $card, $redeem);
         $plan->add($member->id, $image);
 
         $this->assertEquals($member->id, $user->fresh()->plans->first()->id);

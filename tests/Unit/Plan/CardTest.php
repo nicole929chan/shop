@@ -45,23 +45,29 @@ class CardTest extends TestCase
     public function test_刪除獲取點數QRcode圖檔()
     {
         Storage::fake('public');
-        Storage::disk('public')->put('qrcode.png', 'qrcode contents');
+        $qrcodePath = UploadedFile::fake()->image('qrcode.png')->store('images/members', 'public');
         
-        Storage::disk('public')->assertExists('qrcode.png');
-        
-        $testingPath = Storage::disk('public')->getAdapter()->getPathPrefix();
-   
         $user = factory(User::class)->create();
         $manager = new ImageManager();
         
+        $fullPath = storage_path('framework/testing/disks/public/'.$qrcodePath);
+        
         $card = new Card($manager);
-        $card->destroyQrcode($testingPath . '/qrcode.png');
+        $card->destroyQrcode($fullPath);
 
-        Storage::disk('public')->assertMissing('qrcode.png');
+        Storage::disk('public')->assertMissing($qrcodePath);
     }
 
     public function test_製作分享卡()
     {
+        Storage::fake('public');
+        
+        $user = factory(User::class)->make();
+        $member = factory(Member::class)->create();
+        $path = 'images/members/' . $member->id;
+
+        $imagePath = UploadedFile::fake()->image('user.png')->store($path, 'public');
+        
         $image = Mockery::mock(Image::class);
         app()->instance(Image::class, $image);
    
@@ -76,11 +82,8 @@ class CardTest extends TestCase
             ->shouldReceive('insert')
             ->shouldReceive('save');
         
-        $user = factory(User::class)->make();
-        $member = factory(Member::class)->make();
-        
         $card = new Card($manager);
 
-        $card->generate('images/cards/1/user.png', $user, $member);
+        $card->generate($imagePath, $user, $member);
     }
 }

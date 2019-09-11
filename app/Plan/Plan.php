@@ -30,13 +30,16 @@ class Plan
     public function add($memberId, $image)
     {
         $this->member = Member::find($memberId);
-        $path = "images/cards/{$memberId}";
+        $path = "images/members/{$memberId}/cards";
         $imagePath = $image->store($path, 'public');
-
-        $this->user->plans()->attach($memberId, ['card' => $imagePath]);
 
         $this->card->generate($imagePath, $this->user, $this->member);
         
-        $this->redeem->generate($this->user, $this->member);
+        $redeemPath = $this->redeem->generate($this->user, $this->member);
+        
+        $this->user->plans()->attach($memberId, [
+            'card' => $imagePath,
+            'redeem' => $redeemPath
+        ]);
     }
 }
