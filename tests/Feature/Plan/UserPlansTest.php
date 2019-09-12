@@ -50,8 +50,12 @@ class UserPlansTest extends TestCase
         );
         
         $this->jsonAs($user, 'GET', "api/user/{$user->id}/plans?member_id={$member->id}")
-            ->assertJsonFragment([
-                'name' => $member->name
+            ->assertJsonStructure([
+                'data' => [
+                    'member',
+                    'card',
+                    'redeem'
+                ]
             ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Plan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\PrivatePlanResource;
 use App\Models\User;
 
 class UserPlansController extends Controller
@@ -17,18 +18,12 @@ class UserPlansController extends Controller
     public function action(User $user, Request $request)
     {
         $this->authorize('show', $user);
-
-        $member_id = $request->member_id;
-
-        if(is_null($member_id)) {
-            if($user->plans) {
-                return MemberResource::collection($user->plans);
-            }
+        
+        if(is_null($request->member_id)) {
+            return PrivatePlanResource::collection($user->plans);
         } else {
-            $plan = $user->plans()->wherePivot('member_id', $member_id)->first();
-            if($plan) {
-                return new MemberResource($plan);
-            }
+            $plan = $user->plans()->wherePivot('member_id', $request->member_id)->first();
+            return new PrivatePlanResource($plan);
         }
         
         return null;
