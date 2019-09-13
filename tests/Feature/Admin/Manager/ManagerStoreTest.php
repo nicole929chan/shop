@@ -107,6 +107,22 @@ class ManagerStoreTest extends TestCase
         ])->assertSessionHasErrors(['finish_date']);
     }
 
+    public function test_新增的店家若沒上傳logo改用平台預設的()
+    {
+        $this->actingAsAdmin($admin = factory(Member::class)->create());
+        
+        $member = factory(Member::class)->make([
+            'logo' => null
+        ]);
+
+        $this->post('manager', $member->toArray());
+
+        $this->assertDatabaseHas('members', [
+            'email' => $member->email,
+            'logo' => 'images/logo.jpg'
+        ]);
+    }
+
     protected function actingAsAdmin($member = null)
     {
         $member = $member ?: factory(Member::class)->create();

@@ -9,7 +9,7 @@ $factory->define(Member::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'code' => substr(rand(), 1, 6),
-        'logo' => $faker->image(),
+        'logo' => 'images/logo.jpg',
         'phone_number' => $faker->phoneNumber,
         'address' => $faker->address,
         'qrcode' => 'qrcode',

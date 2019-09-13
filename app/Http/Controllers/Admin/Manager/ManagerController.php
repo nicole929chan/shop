@@ -39,7 +39,8 @@ class ManagerController extends Controller
             'email' => $request->email,
             'password' => 'password',
             'start_date' => $request->start_date,
-            'finish_date' => $request->finish_date
+            'finish_date' => $request->finish_date,
+            'logo' => 'images/logo.jpg'
         ]);
 
         if($logo = $request->file('logo')) {

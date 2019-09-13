@@ -1,7 +1,7 @@
 <div class="bd-callout bd-callout-danger">
     <div class="media">
         <div class="d-flex flex-column align-items-center mr-3">
-            <img src="{{ asset('storage/'.$member->logo) }}" alt="">
+            <img src="{{ asset('storage/'.$member->logo) }}"  width="100" alt="">
             @if($member->admin)
                 <div class="mt-2">admin</div>
             @endif
@@ -17,9 +17,11 @@
                     <div>{{ $member->address }}</div>
                 </div>
                 <div>
-                    <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
-                    <div>{{ $member->qrcode }}</div>
-                    <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
+                    @if(!$member->admin)
+                        <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
+                        <div>{{ $member->qrcode }}</div>
+                        <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
+                    @endif
                 </div>
             </div>
         </div>
