@@ -10,6 +10,7 @@ $factory->define(Member::class, function (Faker $faker) {
         'name' => $faker->name,
         'code' => substr(rand(), 1, 6),
         'logo' => 'images/logo.jpg',
+        'image' => null,
         'phone_number' => $faker->phoneNumber,
         'address' => $faker->address,
         'qrcode' => 'qrcode',

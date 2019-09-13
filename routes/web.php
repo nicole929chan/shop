@@ -8,10 +8,12 @@ Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Admin\Auth\LoginController@login');
 Route::post('logout', 'Admin\Auth\LoginController@logout')->name('logout');
 
+Route::get('manager/{member}/edit', 'Admin\Manager\ManagerController@edit')->name('manager.edit');
 Route::get('manager/create', 'Admin\Manager\ManagerController@create')->name('manager.create');
 Route::get('manager/{member}', 'Admin\Manager\ManagerController@show')->name('manager.show');
 Route::get('manager', 'Admin\Manager\ManagerController@index')->name('manager.index');
 Route::post('manager', 'Admin\Manager\ManagerController@store');
+Route::patch('manager/{member}', 'Admin\Manager\ManagerController@update')->name('manager.update');
 
 Route::post('activity', 'Admin\Manager\ActivityController@store')->name('activity.store');
 Route::patch('activity/{activity}', 'Admin\Manager\ActivityController@update')->name('activity.update');

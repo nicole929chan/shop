@@ -18,6 +18,7 @@ class CreateMembersTable extends Migration
             $table->string('name');
             $table->string('code')->unique();
             $table->string('logo')->nullable();
+            $table->string('image')->nullable();
             $table->string('phone_number');
             $table->string('address');
             $table->text('qrcode')->nullable();

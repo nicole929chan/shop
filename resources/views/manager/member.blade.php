@@ -3,7 +3,7 @@
         <div class="d-flex flex-column align-items-center mr-3">
             <img src="{{ asset('storage/'.$member->logo) }}"  width="100" alt="">
             @if($member->admin)
-                <div class="mt-2">admin</div>
+                <div class="mt-2"><strong>admin</strong></div>
             @endif
         </div>
         <div class="media-body">
@@ -20,10 +20,15 @@
                     @if(!$member->admin)
                         <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
                         <div>{{ $member->qrcode }}</div>
-                        <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
+                        <div class="mt-2">
+                            <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="mb-2">
+    <img src="{{ asset('storage/'.$member->image) }}" class="img-fluid" alt="">
 </div>

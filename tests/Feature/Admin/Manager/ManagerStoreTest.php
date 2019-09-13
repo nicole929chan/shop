@@ -40,7 +40,8 @@ class ManagerStoreTest extends TestCase
         $this->actingAsAdmin($admin = factory(Member::class)->create());
         
         $member = factory(Member::class)->make([
-            'logo' => $logo =UploadedFile::fake()->image('logo.png')
+            'logo' => $logo =UploadedFile::fake()->image('logo.png'),
+            'image' => $image =UploadedFile::fake()->image('image.png'),
         ]);
 
         $this->post('manager', $member->toArray());
@@ -52,6 +53,7 @@ class ManagerStoreTest extends TestCase
         $member = Member::whereEmail($member->email)->first();
 
         Storage::disk('public')->assertExists("images/members/{$member->id}/".$logo->hashName());
+        Storage::disk('public')->assertExists("images/members/{$member->id}/".$image->hashName());
     }
 
     public function test_新增的店家姓名必填()
