@@ -51,9 +51,9 @@
                 <label class="col-sm-1 col-form-label">Active:<em class="text-danger">*</em></label>
                 <div class="col-sm-11">
                     <div class="d-flex">
-                        <input type="date" name="start_date" class="form-control" value="{{ $member->start_date }}">
+                        <input type="date" name="start_date" class="form-control" value="{{ $member->start_date->format('Y-m-d') }}">
                         <div>~</div>
-                        <input type="date" name="finish_date" class="form-control" value="{{ $member->finish_date }}">
+                        <input type="date" name="finish_date" class="form-control" value="{{ $member->finish_date->format('Y-m-d') }}">
                     </div>
                 </div>
             </div>

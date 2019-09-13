@@ -41,6 +41,7 @@ class ManagerUpdateTest extends TestCase
             ->assertStatus(200);
 
         $info = factory(Member::class)->make();
+        $info->admin = false;
 
         $this->patch(route('manager.update', [$member->id]), $info->toArray());
 
@@ -90,7 +91,15 @@ class ManagerUpdateTest extends TestCase
 
     public function test_修改的店家啟用日期須為日期格式()
     {
-        $this->updateManager(['start_date' => 'foo'])->assertSessionHasErrors(['start_date']);
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->create();
+        
+        $request = factory(Member::class)->make()->toArray();
+        $request['start_date'] = 'foo';
+
+        $this->patch(route('manager.update', [$member->id]), $request)
+            ->assertSessionHasErrors(['start_date']);
     }
 
     public function test_修改的店家結束日期必填()
@@ -100,7 +109,15 @@ class ManagerUpdateTest extends TestCase
 
     public function test_修改的店家結束日期須為日期格式()
     {
-        $this->updateManager(['finish_date' => 'foo'])->assertSessionHasErrors(['finish_date']);
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->create();
+        
+        $request = factory(Member::class)->make()->toArray();
+        $request['finish_date'] = 'foo';
+
+        $this->patch(route('manager.update', [$member->id]), $request)
+            ->assertSessionHasErrors(['finish_date']);
     }
 
     public function test_修改的店家結束日期必需大於啟用日期()

@@ -89,7 +89,13 @@ class ManagerStoreTest extends TestCase
 
     public function test_新增的店家啟用日期須為日期格式()
     {
-        $this->storeManager(['start_date' => 'foo'])->assertSessionHasErrors(['start_date']);
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->make()->toArray();
+        $member['start_date'] = 'foo';
+
+        $this->post('manager', $member)
+            ->assertSessionHasErrors(['start_date']);
     }
 
     public function test_新增的店家結束日期必填()
@@ -99,7 +105,13 @@ class ManagerStoreTest extends TestCase
 
     public function test_新增的店家結束日期須為日期格式()
     {
-        $this->storeManager(['finish_date' => 'foo'])->assertSessionHasErrors(['finish_date']);
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->make()->toArray();
+        $member['finish_date'] = 'foo';
+
+        $this->post('manager', $member)
+            ->assertSessionHasErrors(['finish_date']);
     }
 
     public function test_新增的店家結束日期必需大於啟用日期()

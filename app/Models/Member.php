@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +14,10 @@ class Member extends Authenticatable
         'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password', 'start_date', 'finish_date', 'logo', 'admin'
     ];
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    protected $dates = [
+        'start_date',
+        'finish_date'
+    ];
 
     public static function boot()
     {
@@ -26,11 +28,6 @@ class Member extends Authenticatable
             $member->code = substr(rand(), 1, 6);
             $member->save();
         });
-    }
-
-    public function setFinishDateAttribute($date)
-    {
-        return $this->attributes['finish_date'] = Carbon::createFromFormat('Y-m-d', $date)->endOfDay();
     }
 
     public function activity()

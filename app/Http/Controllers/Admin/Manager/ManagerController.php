@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\ManagerStoreRequest;
 use App\Http\Requests\ManagerUpdateRequest;
 use App\Models\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -41,7 +42,7 @@ class ManagerController extends Controller
             'email' => $request->email,
             'password' => 'password',
             'start_date' => $request->start_date,
-            'finish_date' => $request->finish_date,
+            'finish_date' => Carbon::parse($request->finish_date)->endOfDay(),
             'logo' => 'images/logo.jpg',
             'admin' => $request->admin
         ]);
@@ -60,7 +61,7 @@ class ManagerController extends Controller
             return redirect(route('manager.index'));
         }
 
-        return redirect(route('manager.show', [$member->id]));
+        return redirect(route('manager.show', [$member->id]))->with('flash_message', 'Created!');
     }
 
     public function show(Member $member)
@@ -77,8 +78,16 @@ class ManagerController extends Controller
 
     public function update(Member $member, ManagerUpdateRequest $request)
     {
-        $member->update(
-            $request->only('name', 'email', 'phone_number', 'address', 'admin', 'start_date', 'finish_date')
-        );
+        $member->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'admin' => $request->admin,
+            'start_date' => $request->start_date,
+            'finish_date' => Carbon::parse($request->finish_date)->endOfDay(),
+        ]);
+
+        return redirect(route('manager.show', [$member->id]))->with('flash_message', 'Updated!');
     }
 }
