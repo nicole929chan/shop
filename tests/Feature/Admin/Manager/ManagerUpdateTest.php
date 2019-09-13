@@ -56,6 +56,62 @@ class ManagerUpdateTest extends TestCase
         $this->updateManager(['name' => null])->assertSessionHasErrors('name');
     }
 
+    public function test_修改店家的郵件必填()
+    {
+        $this->updateManager(['email' => null])->assertSessionHasErrors('email');
+    }
+
+    public function test_修改的店家郵件格式需正確()
+    {
+        $this->updateManager(['email' => 'foo@'])->assertSessionHasErrors(['email']);
+    }
+
+    public function test_修改店家的郵件不可與現有的重複()
+    {
+        $member = factory(Member::class)->create();
+
+        $this->updateManager(['email' => $member->email])->assertSessionHasErrors('email');
+    }
+
+    public function test_修改店家的電話必填()
+    {
+        $this->updateManager(['phone_number' => null])->assertSessionHasErrors('phone_number');
+    }
+
+    public function test_修改店家的地址必填()
+    {
+        $this->updateManager(['address' => null])->assertSessionHasErrors('address');
+    }
+
+    public function test_修改的店家啟用日期必填()
+    {
+        $this->updateManager(['start_date' => null])->assertSessionHasErrors(['start_date']);
+    }
+
+    public function test_修改的店家啟用日期須為日期格式()
+    {
+        $this->updateManager(['start_date' => 'foo'])->assertSessionHasErrors(['start_date']);
+    }
+
+    public function test_修改的店家結束日期必填()
+    {
+        $this->updateManager(['finish_date' => null])->assertSessionHasErrors(['finish_date']);
+    }
+
+    public function test_修改的店家結束日期須為日期格式()
+    {
+        $this->updateManager(['finish_date' => 'foo'])->assertSessionHasErrors(['finish_date']);
+    }
+
+    public function test_修改的店家結束日期必需大於啟用日期()
+    {
+        $this->updateManager([
+            'start_date' => '2018-01-03',
+            'finish_date' => '2018-01-01'
+        ])->assertSessionHasErrors(['finish_date']);
+    }
+
+
     // public function test_修改的店家若()
     // {
         
@@ -74,8 +130,9 @@ class ManagerUpdateTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $member = factory(Member::class)->make($attributes);
+        $member = factory(Member::class)->create();
+        $info = factory(Member::class)->make($attributes);
 
-        return $this->post('manager', $member->toArray());
+        return $this->patch(route('manager.update', [$member->id]), $info->toArray());
     }
 }

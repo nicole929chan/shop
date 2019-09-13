@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\ManagerStoreRequest;
+use App\Http\Requests\ManagerUpdateRequest;
 use App\Models\Member;
 use Illuminate\Http\Request;
 
@@ -74,7 +75,7 @@ class ManagerController extends Controller
         return view('manager.edit', compact('member'));
     }
 
-    public function update(Member $member, Request $request)
+    public function update(Member $member, ManagerUpdateRequest $request)
     {
         $member->update(
             $request->only('name', 'email', 'phone_number', 'address', 'admin', 'start_date', 'finish_date')
