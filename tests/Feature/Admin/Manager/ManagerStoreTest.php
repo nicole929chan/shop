@@ -43,6 +43,7 @@ class ManagerStoreTest extends TestCase
             'logo' => $logo =UploadedFile::fake()->image('logo.png'),
             'image' => $image =UploadedFile::fake()->image('image.png'),
         ]);
+        $member->admin = false;
 
         $this->post('manager', $member->toArray());
 
@@ -111,11 +112,15 @@ class ManagerStoreTest extends TestCase
 
     public function test_新增的店家若沒上傳logo改用平台預設的()
     {
+        Storage::fake('public');
+
         $this->actingAsAdmin($admin = factory(Member::class)->create());
         
         $member = factory(Member::class)->make([
-            'logo' => null
+            'logo' => null,
+            'image' => $image = UploadedFile::fake()->image('image.png')
         ]);
+        $member->admin = false;
 
         $this->post('manager', $member->toArray());
 
@@ -123,6 +128,22 @@ class ManagerStoreTest extends TestCase
             'email' => $member->email,
             'logo' => 'images/logo.jpg'
         ]);
+    }
+
+    public function test_新增的店家其形象圖檔必填()
+    {
+        $this->storeManager([
+            'admin' => 0,
+            'image' => null
+        ])->assertSessionHasErrors(['image']);
+    }
+
+    public function test_新增的店家若為管理者其形象圖檔不必上傳()
+    {
+        $this->storeManager([
+            'admin' => 1,
+            'image' => null
+        ])->assertSessionDoesntHaveErrors('image');
     }
 
     protected function actingAsAdmin($member = null)

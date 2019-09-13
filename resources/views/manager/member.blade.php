@@ -29,6 +29,3 @@
         </div>
     </div>
 </div>
-<div class="mb-2">
-    <img src="{{ asset('storage/'.$member->image) }}" class="img-fluid" alt="">
-</div>

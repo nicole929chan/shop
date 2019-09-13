@@ -71,6 +71,9 @@
                     <div class="custom-file">
                         <input type="file" name="image" class="custom-file-inputx">
                     </div>
+                    @error('image')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                     <small class="text-info">Upload a image if you're member.</small>
                 </div>
             </div>

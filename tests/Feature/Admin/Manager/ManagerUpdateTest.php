@@ -31,9 +31,14 @@ class ManagerUpdateTest extends TestCase
 
     public function test_管理者能夠修改店家基本資料()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAsAdmin($admin = factory(Member::class)->create());
         
         $member = factory(Member::class)->create();
+
+        $this->get(route('manager.edit', [$member->id]))
+            ->assertStatus(200);
 
         $info = factory(Member::class)->make();
 
@@ -44,6 +49,11 @@ class ManagerUpdateTest extends TestCase
             'email' => $info->email,
             'phone_number' => $info->phone_number
         ]);
+    }
+
+    public function test_修改店家的姓名必填()
+    {
+        $this->updateManager(['name' => null])->assertSessionHasErrors('name');
     }
 
     // public function test_修改的店家若()
@@ -58,5 +68,14 @@ class ManagerUpdateTest extends TestCase
         $member->save();
 
         $this->actingAs($member, 'web');
+    }
+
+    protected function updateManager($attributes = [])
+    {
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->make($attributes);
+
+        return $this->post('manager', $member->toArray());
     }
 }

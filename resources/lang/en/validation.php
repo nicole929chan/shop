@@ -132,6 +132,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'image' => [
+            'required_if' => 'The :attribute field is required when you are a member.',
+        ]
     ],
 
     /*

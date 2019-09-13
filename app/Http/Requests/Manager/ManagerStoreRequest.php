@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Manager;
 
+use App\Rules\MustHaveImage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManagerStoreRequest extends FormRequest
@@ -25,11 +26,13 @@ class ManagerStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'admin' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
             'email' => 'required|email',
             'start_date' => 'required|date',
-            'finish_date' => 'required|date|after:start_date'
+            'finish_date' => 'required|date|after:start_date',
+            'image' => 'required_if:admin,0'
         ];
     }
 }
