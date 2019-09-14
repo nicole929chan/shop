@@ -25,7 +25,8 @@ class Member extends Authenticatable
 
         static::created(function ($member) { 
             $member->qrcode = config('app.url') . "/api/members/{$member->id}";
-            $member->code = substr(rand(), 1, 6);
+            $member->code = $code = substr(rand(), 1, 6);
+            $member->password = bcrypt($code);
             $member->save();
         });
     }

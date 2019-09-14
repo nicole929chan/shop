@@ -29,7 +29,7 @@ class ManagerStoreRequest extends FormRequest
             'admin' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:members',
             'start_date' => 'required|date',
             'finish_date' => 'required|date|after:start_date',
             'image' => 'required_if:admin,0'

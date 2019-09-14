@@ -54,6 +54,16 @@
                         <div>~</div>
                         <input type="date" name="finish_date" class="form-control" value="{{ old('finish_date') }}">
                     </div>
+                    <div>
+                        @error('start_date')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div>
+                        @error('finish_date')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
             </div>
             <div class="form-group row">

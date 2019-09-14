@@ -82,6 +82,13 @@ class ManagerStoreTest extends TestCase
         $this->storeManager(['email' => 'foo@'])->assertSessionHasErrors(['email']);
     }
 
+    public function test_新增的店家郵件不可重複()
+    {
+        $member = factory(Member::class)->create();
+
+        $this->storeManager(['email' => $member->email])->assertSessionHasErrors(['email']);
+    }
+
     public function test_新增的店家啟用日期必填()
     {
         $this->storeManager(['start_date' => null])->assertSessionHasErrors(['start_date']);

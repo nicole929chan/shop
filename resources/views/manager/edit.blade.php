@@ -55,6 +55,16 @@
                         <div>~</div>
                         <input type="date" name="finish_date" class="form-control" value="{{ $member->finish_date->format('Y-m-d') }}">
                     </div>
+                    <div>
+                        @error('start_date')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div>
+                        @error('finish_date')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
