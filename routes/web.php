@@ -27,3 +27,6 @@ Route::post('getPoints', 'Admin\Point\PointController@store');
 
 Route::get('redeem/{code}', 'Admin\Redeem\RedeemController@redeem')->name('redeem');
 Route::post('redeem', 'Admin\Redeem\RedeemController@store');
+
+Route::get('change-password/{member}', 'Admin\Auth\ChangePasswordController@showChangeForm')->name('show.change.form');
+Route::patch('change-password/{member}', 'Admin\Auth\ChangePasswordController@change')->name('password.change');

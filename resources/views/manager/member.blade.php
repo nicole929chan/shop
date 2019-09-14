@@ -17,13 +17,16 @@
                     <div>{{ $member->address }}</div>
                 </div>
                 <div>
-                    <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
                     @if(!$member->admin)
                         <div>{{ $member->qrcode }}</div>
-                        <div class="mt-2">
-                            <a href="{{ route('user.index', [$member->id]) }}">Customers</a>
-                        </div>
                     @endif
+                    <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
+                    <div class="mt-3">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{{ route('user.index', [$member->id]) }}" class="btn btn-warning">Customers</a>
+                            <a href="{{ route('password.change', [$member->id]) }}" class="btn btn-warning">Password</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
