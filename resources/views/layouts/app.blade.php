@@ -90,7 +90,7 @@
         <main class="p-4">
             @if(Session::has('flash_message'))
                 <div class="d-flex justify-content-center">
-                    <div class="alert alert-info w-75">
+                    <div class="alert alert-success w-75">
                         <div class="text-center">{{ Session::get('flash_message') }}</div>
                     </div>
                 </div>

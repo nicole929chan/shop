@@ -7,6 +7,10 @@ Route::get('/', function () {
 Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Admin\Auth\LoginController@login');
 Route::post('logout', 'Admin\Auth\LoginController@logout')->name('logout');
+Route::get('passowrd/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::get('password/reset', 'Admin\Auth\ForgetPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Admin\Auth\ForgetPasswordController@sendResetLinkEmail')->name('password.email');
+Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::get('manager/{member}/edit', 'Admin\Manager\ManagerController@edit')->name('manager.edit');
 Route::get('manager/create', 'Admin\Manager\ManagerController@create')->name('manager.create');

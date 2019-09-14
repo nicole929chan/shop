@@ -25,7 +25,7 @@ class ChangePasswordController extends Controller
         $this->authorize('show', $member);
 
         $attributes = $request->validate([
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:8'
         ]);
         
         $member->password = bcrypt($attributes['password']);
