@@ -6,6 +6,8 @@ use App\Models\Member;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ManagerUpdateTest extends TestCase
 {
@@ -31,9 +33,7 @@ class ManagerUpdateTest extends TestCase
 
     public function test_管理者能夠修改店家基本資料()
     {
-        $this->withoutExceptionHandling();
-
-        $this->actingAsAdmin($admin = factory(Member::class)->create());
+        $this->actingAsAdmin();
         
         $member = factory(Member::class)->create();
 
@@ -41,7 +41,6 @@ class ManagerUpdateTest extends TestCase
             ->assertStatus(200);
 
         $info = factory(Member::class)->make();
-        $info->admin = false;
 
         $this->patch(route('manager.update', [$member->id]), $info->toArray());
 
@@ -128,17 +127,64 @@ class ManagerUpdateTest extends TestCase
         ])->assertSessionHasErrors(['finish_date']);
     }
 
+    public function test_修改的店家若上傳新logo則舊的須刪除()
+    {
+        Storage::fake('public');
 
-    // public function test_修改的店家若()
-    // {
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->create();
+        $member->update([
+            'logo' => $logo = UploadedFile::fake()->image('logo.png')->store("images/members/{$member->id}", 'public')
+        ]);
+
+        $info = factory(Member::class)->make([
+            'logo' => $newlogo = UploadedFile::fake()->image('newlogo.png')
+        ]);
+
+        $this->patch(route('manager.update', [$member->id]), $info->toArray());
+
+        Storage::disk('public')->assertMissing($logo);
         
-    // }
+        Storage::disk('public')->assertExists("images/members/{$member->id}/".$newlogo->hashName());
+
+        $this->assertDatabaseHas('members', [
+            'id' => $member->id,
+            'logo' => "images/members/{$member->id}/".$newlogo->hashName()
+        ]);
+    }
+
+    public function test_修改的店家若上傳新形象圖檔則舊的須刪除()
+    {
+        $this->withoutExceptionHandling();
+        Storage::fake('public');
+
+        $this->actingAsAdmin();
+
+        $member = factory(Member::class)->create();
+        $member->update([
+            'image' => $image = UploadedFile::fake()->image('image.png')->store("images/members/{$member->id}", 'public')
+        ]);
+
+        $info = factory(Member::class)->make([
+            'image' => $newimage = UploadedFile::fake()->image('newimage.png')
+        ]);
+
+        $this->patch(route('manager.update', [$member->id]), $info->toArray());
+
+        Storage::disk('public')->assertMissing($image);
+        
+        Storage::disk('public')->assertExists("images/members/{$member->id}/".$newimage->hashName());
+
+        $this->assertDatabaseHas('members', [
+            'id' => $member->id,
+            'image' => "images/members/{$member->id}/".$newimage->hashName()
+        ]);
+    }
 
     protected function actingAsAdmin($member = null)
     {
-        $member = $member ?: factory(Member::class)->create();
-        $member->admin = true;
-        $member->save();
+        $member = $member ?: factory(Member::class)->create(['admin' => true]);
 
         $this->actingAs($member, 'web');
     }

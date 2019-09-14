@@ -8,6 +8,7 @@ use App\Http\Requests\ManagerUpdateRequest;
 use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ManagerController extends Controller
 {
@@ -58,7 +59,7 @@ class ManagerController extends Controller
         }
 
         if($request->admin) {
-            return redirect(route('manager.index'));
+            return redirect(route('manager.index'))->with('flash_message', 'Created!');
         }
 
         return redirect(route('manager.show', [$member->id]))->with('flash_message', 'Created!');
@@ -87,6 +88,20 @@ class ManagerController extends Controller
             'start_date' => $request->start_date,
             'finish_date' => Carbon::parse($request->finish_date)->endOfDay(),
         ]);
+
+        if($logo = $request->file('logo')) {
+            Storage::disk('public')->delete($member->logo);
+
+            $member->logo = $logo->store("images/members/{$member->id}", 'public');
+            $member->save();
+        }
+
+        if($image = $request->file('image')) {
+            Storage::disk('public')->delete($member->image);
+            
+            $member->image = $image->store("images/members/{$member->id}", 'public');
+            $member->save();
+        }
 
         return redirect(route('manager.show', [$member->id]))->with('flash_message', 'Updated!');
     }

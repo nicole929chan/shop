@@ -17,8 +17,8 @@
                     <div>{{ $member->address }}</div>
                 </div>
                 <div>
+                    <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
                     @if(!$member->admin)
-                        <div><strong>{{ $member->start_date }} ~ {{ $member->finish_date }}</strong></div>
                         <div>{{ $member->qrcode }}</div>
                         <div class="mt-2">
                             <a href="{{ route('user.index', [$member->id]) }}">Customers</a>

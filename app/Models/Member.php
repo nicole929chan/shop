@@ -11,7 +11,7 @@ class Member extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password', 'start_date', 'finish_date', 'logo', 'admin'
+        'name', 'code', 'phone_number', 'address', 'qrcode', 'email', 'password', 'start_date', 'finish_date', 'logo', 'admin', 'image'
     ];
 
     protected $dates = [
