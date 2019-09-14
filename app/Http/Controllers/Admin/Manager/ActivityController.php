@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\ActivityStoreRequest;
 use App\Http\Requests\Manager\ActivityUpdateRequest;
 use App\Models\Activity;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class ActivityController extends Controller
@@ -22,7 +23,7 @@ class ActivityController extends Controller
             'points' => $request->points,
             'description' => $request->description,
             'activity_start' => $request->activity_start,
-            'activity_end' => $request->activity_end,
+            'activity_end' => Carbon::parse($request->activity_end)->endOfDay(),
             'image_path' => $request->file('image_path')->store("images/members/{$request->member_id}", 'public')
         ]);
 

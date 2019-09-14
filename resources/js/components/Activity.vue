@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="d-flex justify-content-end">
-      <a href="#" @click.prevent="editActivity" v-show="!add" class="mb-2">Edit Activity</a>
+      <a href="#" @click.prevent="editActivity" v-show="!add" class="my-2">Edit Activity</a>
     </div>
     <div v-if="show">
+      <div>Points: {{ activity.points }}</div>
+      <div>Period: {{ activity.activity_start}} ~ {{ activity.activity_end }}</div>
+      <div class="mb-2">Content: {{ activity.description }}</div>
       <figure class="">
         <img :src="image" class="figure-img img-fluid rounded" alt="">
       </figure>
-      <div>Points: {{ activity.points }}</div>
-      <div>Period: {{ activity.activity_start}} ~ {{ activity.activity_end }}</div>
-      <div>Content: {{ activity.description }}</div>
     </div>
     <activity-edit-form :activity="activity" v-if="edit" @updateActivity="updateActivity" @discard="discard"></activity-edit-form>
     <activity-add-form :member="member" v-if="add" @addActivity="addActivity"></activity-add-form>

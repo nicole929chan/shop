@@ -117,14 +117,26 @@ class ActivityUpdateTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $this->updateActivity(['activity_start' => 'foo'])->assertSessionHasErrors('activity_start');
+        $activity = factory(Activity::class)->create();
+        
+        $request = factory(Activity::class)->make()->toArray();
+        $request['activity_start'] = 'foo';
+
+        $this->patch(route('activity.update', [$activity->id]), $request)
+            ->assertSessionHasErrors(['activity_start']);
     }
 
     public function test_異動的優惠活動結束日期須為日期格式()
     {
         $this->actingAsAdmin();
 
-        $this->updateActivity(['activity_end' => 'foo'])->assertSessionHasErrors('activity_end');
+        $activity = factory(Activity::class)->create();
+        
+        $request = factory(Activity::class)->make()->toArray();
+        $request['activity_end'] = 'foo';
+
+        $this->patch(route('activity.update', [$activity->id]), $request)
+            ->assertSessionHasErrors(['activity_end']);
     }
 
     public function test_異動的優惠活動結束日期須大於開始日期()

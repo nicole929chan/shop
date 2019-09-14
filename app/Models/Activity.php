@@ -9,12 +9,11 @@ class Activity extends Model
 {
     protected $guarded = [];
 
-    // public function setActivityEndAttribute($value)
-    // {
-    //     $this->attributes['activity_end'] = Carbon::createFromFormat('Y-m-d', $value)
-    //         ->endOfDay();
-    // }
-    
+    protected $dates = [
+        'activity_start',
+        'activity_end'
+    ];
+
     public function getValid()
     {
         return $this->activity_start < now() && $this->activity_end > now();

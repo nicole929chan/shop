@@ -35,9 +35,7 @@ class ActivityStoreTest extends TestCase
     {
         Storage::fake('public');
 
-        $this->actingAsAdmin(
-            $admin = factory(Member::class)->create()
-        );
+        $this->actingAsAdmin();
 
         $member = factory(Member::class)->create();
         $activity = factory(Activity::class)->make([
@@ -91,7 +89,10 @@ class ActivityStoreTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $this->storeActivity(['activity_start' => 'foo'])
+        $activity = factory(Activity::class)->make()->toArray();
+        $activity['activity_start'] = 'foo';
+
+        $this->post(route('activity.store'), $activity)
             ->assertSessionHasErrors('activity_start');
     }
 
@@ -99,7 +100,10 @@ class ActivityStoreTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $this->storeActivity(['activity_end' => 'foo'])
+        $activity = factory(Activity::class)->make()->toArray();
+        $activity['activity_end'] = 'foo';
+
+        $this->post(route('activity.store'), $activity)
             ->assertSessionHasErrors('activity_end');
     }
 
@@ -131,9 +135,7 @@ class ActivityStoreTest extends TestCase
 
     protected function actingAsAdmin($member = null)
     {
-        $member = $member ?: factory(Member::class)->make();
-        $member->admin = true;
-        $member->save();
+        $member = $member ?: factory(Member::class)->make(['admin' => true]);
 
         $this->actingAs($member, 'web');
     }
