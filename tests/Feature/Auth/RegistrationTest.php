@@ -16,7 +16,9 @@ class RegistrationTest extends TestCase
         $this->json('POST', 'api/auth/register', [
             'name' => $name = 'Nicole',
             'email' => $email = 'nicole@example.com',
-            'password' => 'password'
+            'password' => 'password',
+            'birth_year' => '1999',
+            'birth_month' => '1'
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -57,12 +59,26 @@ class RegistrationTest extends TestCase
             ->assertJsonValidationErrors(['password']);
     }
 
+    public function test_註冊須填生日年分()
+    {
+        $this->json('POST', 'api/auth/register')
+            ->assertJsonValidationErrors(['birth_year']);
+    }
+
+    public function test_註冊須填生日月分()
+    {
+        $this->json('POST', 'api/auth/register')
+            ->assertJsonValidationErrors(['birth_month']);
+    }
+
     public function test_註冊成功後返回該位使用者資源()
     {
         $this->json('POST', 'api/auth/register', [
             'name' => $name = 'Nicole',
             'email' => $email = 'nicole@example.com',
-            'password' => 'password'
+            'password' => 'password',
+            'birth_year' => '1999',
+            'birth_month' => '1'
         ])->assertJsonFragment(['email' => $email]);
     }
 
