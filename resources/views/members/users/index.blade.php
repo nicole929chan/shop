@@ -11,6 +11,7 @@
                 <th scope="col">code</th>
                 <th scope="col">email</th>
                 <th scope="col">points</th>
+                <th scope="col">birthday</th>
                 <th scope="col">created at</th>
                 <th scope="col">updated at</th>
             </tr>
@@ -26,6 +27,9 @@
                         @if($item = $user->pointByMember($member->id))
                             <div>{{ $item->pivot->points }}</div>
                         @endif
+                    </td>
+                    <td>
+                        {{ $user->birth_year }} / {{ $user->birth_month }}
                     </td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>
