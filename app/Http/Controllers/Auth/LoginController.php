@@ -15,7 +15,9 @@ class LoginController extends Controller
         if(!$token) {
             return response()->json([
                 'errors' => [
-                    'email' => 'Could not sign you in with those details.'
+                    'email' => [
+                        'Could not sign you in with those details.'
+                    ]
                 ]
             ], 422);
         }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -21,19 +23,36 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
+     * Reset the given user's password.
      *
-     * @var string
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function reset(Request $request)
     {
-        $this->middleware('guest');
+        $request->validate($this->rules(), $this->validationErrorMessages());
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $response = $this->broker()->reset(
+            $this->credentials($request), function ($user, $password) {
+                $this->resetPassword($user, $password);
+            }
+        );
+
+        if ($response == Password::PASSWORD_RESET) {
+            return [
+                'msg' => trans($response)
+            ];
+        }
+
+        return response([
+            'errors' => [
+                'email' => [
+                    trans($response)
+                ]
+            ]
+        ], 422);
     }
 }
