@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Members;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MemberIndexResource;
 use App\Http\Resources\MemberResource;
@@ -19,16 +18,17 @@ class MemberController extends Controller
         return MemberIndexResource::collection($members);
     }
 
-    public function show(Member $member, Request $request)
+    public function show(Member $member)
     {
         $valid = (is_null($member->activity)) ? false : $member->activity->getValid();
 
         $added = false;
-        $user = User::find($request->userId);
-
+        
+        $user = auth()->guard('api')->user();
         if ($user) {
-            $added = !!$user->whereHas('plans', function (Builder $q) use ($member) {
-                $q->where('member_id', $member->id);
+            $added = !!User::whereHas('plans', function (Builder $q) use ($member, $user) {
+                $q->where('member_id', $member->id)
+                    ->where('user_id', $user->id);
             })->first();
         }
 

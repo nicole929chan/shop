@@ -54,7 +54,8 @@ class UserPlansTest extends TestCase
                 'data' => [
                     'member',
                     'card',
-                    'redeem'
+                    'redeem',
+                    'points'
                 ]
             ]);
     }
