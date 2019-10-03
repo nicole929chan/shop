@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'client_url' => env('CLIENT_URL', 'http://shopclient.test'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

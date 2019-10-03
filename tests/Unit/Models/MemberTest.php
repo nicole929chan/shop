@@ -17,7 +17,9 @@ class MemberTest extends TestCase
     {
         $member = factory(Member::class)->create();
 
-        $qrcode = config('app.url') . "/api/members/{$member->id}";
+        $qrcode = config('app.client_url') . "/members/{$member->id}";
+
+        // dd($qrcode);
 
         $this->assertEquals($qrcode, $member->fresh()->qrcode);
     }
