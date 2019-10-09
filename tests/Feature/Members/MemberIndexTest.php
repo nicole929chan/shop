@@ -35,4 +35,19 @@ class MemberIndexTest extends TestCase
 
         $response->assertJsonMissing(['name' => $admin->name]);
     }
+
+    public function test_瀏覽的店家須依建檔日期遞減排序()
+    {
+        $member = factory(Member::class)->create();
+        $member2 = factory(Member::class)->create(['created_at' => today()->addDay()]);
+        
+        $response = $this->json('GET', 'api/members');
+
+        $members = $response->json();
+
+        $this->assertEquals([
+            $member2->name,
+            $member->name
+        ], array_column($members['data'], 'name'));
+    }
 }

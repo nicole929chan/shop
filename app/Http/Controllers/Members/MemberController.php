@@ -13,7 +13,7 @@ class MemberController extends Controller
 {
     public function index()
     {
-        $members = Member::where('admin', 0)->get();
+        $members = Member::where('admin', 0)->latest()->paginate(10);        
 
         return MemberIndexResource::collection($members);
     }
