@@ -31,10 +31,10 @@ class Card
         $fullPath = $this->generateQrcode($user);
 
         $image = $this->manager->make('storage/' . $imagePath);
-        $image->resize(400, null, function ($constraint) {
+        $image->resize(600, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $image->text("CODE: {$user->code}", 380, 150, function($font) {  
+        $image->text("CODE: {$user->code}", 570, 288, function($font) {  
             $font->file(public_path('fonts/abhaya-libre/AbhayaLibre-Bold.ttf'));
             $font->size(18);
             $font->color('#ffffff');  
@@ -43,11 +43,11 @@ class Card
             $font->angle(0);  
         });
         $watermark = $this->manager->make(public_path("storage/{$member->activity->image_path}"));
-        $watermark->resize(320, null, function ($constraint) {
+        $watermark->resize(490, null, function ($constraint) {
             $constraint->aspectRatio();
         });
         $watermark->opacity(55);
-        $image->insert($watermark, 'top-left', 6, 6);
+        $image->insert($watermark, 'top-left', 55, 50);
         $image->insert($fullPath, 'bottom-right', 10, 10);
         // $image->insert(public_path("storage/{$member->logo}"), 'top-left', 6, 6);
         $image->save('storage/' . $imagePath);
@@ -64,7 +64,7 @@ class Card
     {
         $name = $user->code . '.png';
         QrCode::format('png')
-            ->size(130)
+            ->size(140)
             ->margin(0)
             ->generate($this->getPointsURL($user), $fullPath = public_path("storage/images/{$name}"));
         
