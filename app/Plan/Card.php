@@ -35,7 +35,7 @@ class Card
             $constraint->aspectRatio();
         });
         $image->text("CODE: {$user->code}", 380, 150, function($font) {  
-            $font->file(public_path('storage/fonts/abhaya-libre/AbhayaLibre-Bold.ttf'));  
+            $font->file(public_path('fonts/abhaya-libre/AbhayaLibre-Bold.ttf'));
             $font->size(18);
             $font->color('#ffffff');  
             $font->align('right');  
