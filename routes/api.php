@@ -20,4 +20,4 @@ Route::resource('plan', 'Plan\PlanController', [
 
 Route::get('user/{user}/plans', 'Plan\UserPlansController@action');
 
-Route::get('test', 'Auth\ForgotPasswordController@broker');
+Route::get('sharing/{user}', 'Sharing\CardController@action');
